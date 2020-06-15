@@ -20,16 +20,21 @@ class LinuxMon extends StatefulWidget {
 
 class _LinuxMonState extends State<LinuxMon> {
   String _websocketIP;
+  static Stream _deviceDataStream =
+      IOWebSocketChannel.connect("ws://192.168.43.59:5678")
+          .stream
+          .asBroadcastStream();
   int pageIndex = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
 
-  final BatteryPage _batteryPage = BatteryPage();
-  final CpuPage _cpuPage = CpuPage();
-  final DashboardPage _dashboardPage = DashboardPage();
-  final DiskPage _diskPage = DiskPage();
-  final TemperaturesPage _temperaturesPage = TemperaturesPage();
+  final BatteryPage _batteryPage = BatteryPage(_deviceDataStream);
+  final CpuPage _cpuPage = CpuPage(_deviceDataStream);
+  final DashboardPage _dashboardPage = DashboardPage(_deviceDataStream);
+  final DiskPage _diskPage = DiskPage(_deviceDataStream);
+  final TemperaturesPage _temperaturesPage =
+      TemperaturesPage(_deviceDataStream);
 
-  Widget _showPage = DashboardPage();
+  Widget _showPage = DashboardPage(_deviceDataStream);
 
   Widget _pageSelector(int page) {
     switch (page) {
@@ -44,7 +49,9 @@ class _LinuxMonState extends State<LinuxMon> {
       case 4:
         return _temperaturesPage;
       default:
-        return Center(child: Text('bruh really?'),);
+        return Center(
+          child: Text('bruh really?'),
+        );
     }
   }
 
@@ -52,54 +59,50 @@ class _LinuxMonState extends State<LinuxMon> {
   void initState() {
     super.initState();
     getServerIP().then((ip) => _websocketIP = ip);
+    // try {
+    //   _deviceDataStream = IOWebSocketChannel.connect("ws://192.168.43.59:5678")
+    //       .stream
+    //       .asBroadcastStream();
+    //   // _deviceDataStream.listen((event) {
+    //   //   var data = DataParser.fromRawJson(event);
+    //   //   print(data.cpuFreq);
+    //   // });
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     print(_websocketIP);
-
-    // Stream _deviceDataStream;
-    // try {
-    //   _deviceDataStream = IOWebSocketChannel.connect("ws://192.168.43.59:5678")
-    //       .stream
-    //       .asBroadcastStream();
-    //   _deviceDataStream.listen((event) {
-    //     var data = DataParser.fromRawJson(event);
-    //      print(data.cpuFreq);
-    //   });
-    // } catch (e) {
-    //   print(e);
-    // }
-    // print(_websocketIP);
-
     return MaterialApp(
       home: Scaffold(
-          bottomNavigationBar: CurvedNavigationBar(
-            key: _bottomNavigationKey,
-            index: 0,
-            // height: 50.0,
-            items: <Widget>[
-              Icon(CustomIcons.ibat2, size: 20),
-              Icon(CustomIcons.ichart_bar, size: 20),
-              Icon(CustomIcons.ichart_alt, size: 20),
-              Icon(CustomIcons.ihdd, size: 20),
-              Icon(CustomIcons.itemperatire, size: 20),
-            ],
-            color: Colors.white,
-            buttonBackgroundColor: Colors.white,
-            backgroundColor: Colors.black87,
-            animationCurve: Curves.easeInOutCubic,
-            animationDuration: Duration(milliseconds: 400),
-            onTap: (index) {
-              setState(() {
-                _showPage = _pageSelector(index);
-              });
-            },
-          ),
-          body: Container(
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 0,
+          // height: 50.0,
+          items: <Widget>[
+            Icon(CustomIcons.ibat2, size: 20),
+            Icon(CustomIcons.ichart_bar, size: 20),
+            Icon(CustomIcons.ichart_alt, size: 20),
+            Icon(CustomIcons.ihdd, size: 20),
+            Icon(CustomIcons.itemperatire, size: 20),
+          ],
+          color: Colors.white,
+          buttonBackgroundColor: Colors.white,
+          backgroundColor: Colors.black87,
+          animationCurve: Curves.easeInOutCubic,
+          animationDuration: Duration(milliseconds: 400),
+          onTap: (index) {
+            setState(() {
+              _showPage = _pageSelector(index);
+            });
+          },
+        ),
+        body: Container(
             color: Colors.black87,
-            child: _showPage
-          )),
+            child: _showPage),
+      ),
     );
   }
 }
