@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/data_parser.dart';
-import 'package:linux_mon/icons.dart';
+import 'package:linux_mon/pages/battery.dart';
+import './data_parser.dart';
+import './icons.dart';
+import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:wifi/wifi.dart';
-import 'package:ping_discover_network/ping_discover_network.dart';
+import 'pages/cpu.dart';
+import 'pages/dashboard.dart';
+import 'pages/disk.dart';
+import 'pages/temperatures.dart';
+import 'utils/get_server_ip.dart';
 
 void main() => runApp(LinuxMon());
 
@@ -15,34 +20,44 @@ class LinuxMon extends StatefulWidget {
 
 class _LinuxMonState extends State<LinuxMon> {
   String _websocketIP;
-  int _page = 0;
+  int pageIndex = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
 
-  void getDevices() async {
-    try {
-      final String ip = await Wifi.ip;
-      final String subnet = ip.substring(0, ip.lastIndexOf('.'));
-      final int port = 5678;
+  final BatteryPage _batteryPage = BatteryPage();
+  final CpuPage _cpuPage = CpuPage();
+  final DashboardPage _dashboardPage = DashboardPage();
+  final DiskPage _diskPage = DiskPage();
+  final TemperaturesPage _temperaturesPage = TemperaturesPage();
 
-      final stream = NetworkAnalyzer.discover2(subnet, port);
-      stream.listen((NetworkAddress addr) {
-        if (addr.exists) {
-          print('Found device: ${addr.ip}');
-          _websocketIP = addr.ip;
-          return;
-        }
-      });
-    } catch (e) {}
+  Widget _showPage = DashboardPage();
+
+  Widget _pageSelector(int page) {
+    switch (page) {
+      case 0:
+        return _batteryPage;
+      case 1:
+        return _cpuPage;
+      case 2:
+        return _dashboardPage;
+      case 3:
+        return _diskPage;
+      case 4:
+        return _temperaturesPage;
+      default:
+        return Center(child: Text('bruh really?'),);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getDevices();
+    getServerIP().then((ip) => _websocketIP = ip);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_websocketIP);
+
     // Stream _deviceDataStream;
     // try {
     //   _deviceDataStream = IOWebSocketChannel.connect("ws://192.168.43.59:5678")
@@ -55,7 +70,7 @@ class _LinuxMonState extends State<LinuxMon> {
     // } catch (e) {
     //   print(e);
     // }
-    print(_websocketIP);
+    // print(_websocketIP);
 
     return MaterialApp(
       home: Scaffold(
@@ -72,32 +87,18 @@ class _LinuxMonState extends State<LinuxMon> {
             ],
             color: Colors.white,
             buttonBackgroundColor: Colors.white,
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Colors.black87,
             animationCurve: Curves.easeInOutCubic,
-            animationDuration: Duration(milliseconds: 600),
+            animationDuration: Duration(milliseconds: 400),
             onTap: (index) {
               setState(() {
-                _page = index;
+                _showPage = _pageSelector(index);
               });
             },
           ),
           body: Container(
-            color: Colors.blueAccent,
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Text(_page.toString(), textScaleFactor: 10.0),
-                  RaisedButton(
-                    child: Text('Go To Page of index 1'),
-                    onPressed: () {
-                      final CurvedNavigationBarState navBarState =
-                          _bottomNavigationKey.currentState;
-                      navBarState.setPage(1);
-                    },
-                  )
-                ],
-              ),
-            ),
+            color: Colors.black87,
+            child: _showPage
           )),
     );
   }
