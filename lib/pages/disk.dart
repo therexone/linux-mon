@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:linux_mon/utils/data_parser.dart';
 
-import '../data_parser.dart';
 
 class DiskPage extends StatelessWidget {
   DiskPage(this.stream);

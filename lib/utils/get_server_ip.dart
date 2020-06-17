@@ -16,6 +16,5 @@ Future<String> getServerIP() async {
       break;
     }
   }
-
   return serverIP;
 }

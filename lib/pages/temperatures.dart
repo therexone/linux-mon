@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../data_parser.dart';
+import 'package:linux_mon/utils/data_parser.dart';
 
 class TemperaturesPage extends StatelessWidget {
   TemperaturesPage( this.stream);

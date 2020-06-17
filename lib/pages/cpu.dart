@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/data_parser.dart';
+import 'package:linux_mon/utils/data_parser.dart';
 
 class CpuPage extends StatelessWidget {
   CpuPage(this.stream);

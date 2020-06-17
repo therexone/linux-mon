@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linux_mon/pages/battery.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import './icons.dart';
 import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';
@@ -20,6 +21,7 @@ class _LinuxMonState extends State<LinuxMon> {
   static String _websocketUrl = 'ws://0.0.0.0';
   static IOWebSocketChannel channel = IOWebSocketChannel.connect(_websocketUrl);
   static Stream deviceDataStream = channel.stream.asBroadcastStream();
+  String connectionStatus = '';
 
   static List<Widget> _pages = [
     BatteryPage(deviceDataStream),
@@ -30,10 +32,13 @@ class _LinuxMonState extends State<LinuxMon> {
   ];
 
   PageController pageController;
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   wserror(err) async {
     print(new DateTime.now().toString() + " Connection error: $err");
+    setState(() {
+      connectionStatus = 'Disconnected';
+    });
     await reconnect();
   }
 
@@ -42,7 +47,7 @@ class _LinuxMonState extends State<LinuxMon> {
       await Future.delayed(Duration(seconds: 4));
     }
     setState(() {
-      print(new DateTime.now().toString() + " Starting connection attempt...");
+      print(new DateTime.now().toString() + " Connection attempt started.");
       channel = IOWebSocketChannel.connect(_websocketUrl);
       print(new DateTime.now().toString() + " Connection attempt completed.");
       deviceDataStream = channel.stream.asBroadcastStream();
@@ -54,17 +59,25 @@ class _LinuxMonState extends State<LinuxMon> {
         TemperaturesPage(deviceDataStream),
       ];
     });
+    if (channel.closeCode != null) {
+      setState(() {
+        connectionStatus = 'Disconnected';
+      });
+    } else {
+      setState(() {
+        connectionStatus = 'Connected';
+      });
+    }
+
     deviceDataStream.listen((data) => print('got data'),
         onDone: reconnect, onError: wserror, cancelOnError: true);
   }
 
   void setupStream() {
-    String websocketIp;
-    getServerIP().then((ip) {
-      if (ip == null) {
+    getServerIP().then((websocketIp) {
+      if (websocketIp == null) {
         throw ('no servers found');
       }
-      websocketIp = ip;
       _websocketUrl = 'ws://$websocketIp:5678';
       deviceDataStream.listen((data) => print('got data'),
           onDone: reconnect, onError: wserror, cancelOnError: true);
@@ -74,13 +87,12 @@ class _LinuxMonState extends State<LinuxMon> {
         showAlertDialog(context);
       });
     });
-    // return websocketIp;
   }
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
+    pageController = PageController(initialPage: 2);
     setupStream();
   }
 
@@ -113,7 +125,6 @@ class _LinuxMonState extends State<LinuxMon> {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Rescan"),
       content: Text("Could find any servers!"),
@@ -122,7 +133,6 @@ class _LinuxMonState extends State<LinuxMon> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -139,15 +149,11 @@ class _LinuxMonState extends State<LinuxMon> {
         elevation: 0,
         backgroundColor: Colors.black87,
         actions: [
-          FlatButton(
-            child: Text(
-              'Reconnect',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              setupStream();
-            },
-          )
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(connectionStatus),
+          ))
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
