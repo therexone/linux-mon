@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data_parser.dart';
+
 class TemperaturesPage extends StatelessWidget {
   TemperaturesPage( this.stream);
   final Stream stream;
@@ -14,8 +16,8 @@ class TemperaturesPage extends StatelessWidget {
           child: snapshot.hasData
               ? Center(
                   child: Text(
-                    snapshot.data.toString(),
-                    style: TextStyle(color: Colors.white)
+                    DataParser.fromRawJson(snapshot.data).sensorTemperatures.coretemp.toString(),
+                    // style: TextStyle(color: Colors.white)
                   ),
                 )
               : Center(

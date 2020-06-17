@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data_parser.dart';
+
 class DiskPage extends StatelessWidget {
   DiskPage(this.stream);
   final Stream stream;
@@ -13,7 +15,9 @@ class DiskPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: snapshot.hasData
               ? Center(
-                  child: Text(snapshot.data.toString(), style: TextStyle(color: Colors.white),),
+                  child: Text(DataParser.fromRawJson(snapshot.data).diskUsage.toString(),
+                  //  style: TextStyle(color: Colors.white),
+                  ),
                 )
               : Center(
                   child: Text('No data'),

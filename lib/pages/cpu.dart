@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linux_mon/data_parser.dart';
 
 class CpuPage extends StatelessWidget {
   CpuPage(this.stream);
@@ -14,8 +15,8 @@ class CpuPage extends StatelessWidget {
           child: snapshot.hasData
               ? Center(
                   child: Text(
-                    snapshot.data.toString(),
-                    style: TextStyle(color: Colors.white)
+                    DataParser.fromRawJson(snapshot.data).cpuFreq.toString(),
+                    // style: TextStyle(color: Colors.white)
                   ),
                 )
               : Center(

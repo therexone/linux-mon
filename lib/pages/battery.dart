@@ -16,7 +16,7 @@ class BatteryPage extends StatelessWidget {
               ? Center(
                   child: Text(
                     DataParser.fromRawJson(snapshot.data).batteryPercentage.toStringAsFixed(2),
-                    style: TextStyle(color: Colors.white)
+                    // style: TextStyle(color: Colors.white)
                   ),
                 )
               : Center(

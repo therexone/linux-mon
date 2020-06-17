@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
   DashboardPage(this.stream);
-  final Stream stream;
+  Stream stream;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DashboardPage extends StatelessWidget {
               ? Center(
                   child: Text(
                     snapshot.data.toString(),
-                    style: TextStyle(color: Colors.white)
+                    // style: TextStyle(color: Colors.white)
                   ),
                 )
               : Center(
