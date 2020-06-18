@@ -150,25 +150,53 @@ class _LinuxMonState extends State<LinuxMon> {
         backgroundColor: Colors.black87,
         actions: [
           Center(
+            child: Container(
+              margin: EdgeInsets.only(right: 10.0),
+              decoration: BoxDecoration(
+                color: Color(0xff40454B),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(connectionStatus),
-          ))
+                padding: const EdgeInsets.all(10.0),
+                child: Text(connectionStatus),
+              ),
+            ),
+          )
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
         // height: 50.0,
         items: <Widget>[
-          Icon(CustomIcons.ibat2, size: 20),
-          Icon(CustomIcons.ichart_bar, size: 20),
-          Icon(CustomIcons.ichart_alt, size: 20),
-          Icon(CustomIcons.ihdd, size: 20),
-          Icon(CustomIcons.itemperatire, size: 20),
+          Icon(
+            CustomIcons.ibat2,
+            size: 20,
+            color: Colors.black,
+          ),
+          Icon(
+            CustomIcons.ichart_bar,
+            size: 20,
+            color: Colors.black,
+          ),
+          Icon(
+            CustomIcons.ichart_alt,
+            size: 20,
+            color: Colors.black,
+          ),
+          Icon(
+            CustomIcons.ihdd,
+            size: 20,
+            color: Colors.black,
+          ),
+          Icon(
+            CustomIcons.itemperatire,
+            size: 20,
+            color: Colors.black,
+          ),
         ],
         color: Colors.white,
         buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 400),
         onTap: _onTapped,

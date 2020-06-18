@@ -13,6 +13,3 @@ def getDeviceInfo():
     data['approx_sec_left'] = battery.secsleft
     
     return data
-    
-
-    

@@ -8,3 +8,5 @@ android/linux_mon_android.iml
 build/
 linux_mon.iml
 scripts/__pycache__/
+scripts/.vscode
+scripts/.python-version

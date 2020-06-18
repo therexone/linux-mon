@@ -9,6 +9,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "LinuxMon",
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        canvasColor: Colors.black
+    
+      ),
       home: LinuxMon(),
     );
   }
