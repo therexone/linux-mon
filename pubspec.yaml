@@ -32,6 +32,7 @@ dependencies:
   ping_discover_network: ^0.2.0+1
   wifi: ^0.1.5
   rflutter_alert: ^1.0.3
+  clay_containers: ^0.2.2
 
 
 
@@ -50,9 +51,26 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/
+
 
   fonts:
     - family: CustomIcons
       fonts:
         - asset: fonts/CustomIcons.ttf
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/Poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: fonts/Poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: fonts/Poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 600
+
+
 

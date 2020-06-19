@@ -10,8 +10,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "LinuxMon",
       theme: ThemeData(
+        fontFamily: 'Poppins',
         brightness: Brightness.dark,
-        canvasColor: Colors.black
+        canvasColor: Color(0xff0F0F11)
     
       ),
       home: LinuxMon(),

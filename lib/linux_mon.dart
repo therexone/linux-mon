@@ -143,22 +143,36 @@ class _LinuxMonState extends State<LinuxMon> {
 
   @override
   Widget build(BuildContext context) {
-    // if (_websocketUrl == null) print(_websocketUrl);
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'LINUXMON',
+          style: TextStyle(letterSpacing: 2, fontSize: 14),
+        ),
         elevation: 0,
-        backgroundColor: Colors.black87,
+        backgroundColor: Color(0xff1C1C26),
         actions: [
           Center(
             child: Container(
               margin: EdgeInsets.only(right: 10.0),
               decoration: BoxDecoration(
-                color: Color(0xff40454B),
+                color: Color(0xff24242E),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(connectionStatus),
+                child: Row(
+                  children: [
+                    Image.asset('assets/connected-circle.png'),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      connectionStatus.toUpperCase(),
+                      style: TextStyle(color: Color(0xff869EA5), fontSize: 12),
+                    ),
+                  ],
+                ),
               ),
             ),
           )
@@ -171,32 +185,32 @@ class _LinuxMonState extends State<LinuxMon> {
           Icon(
             CustomIcons.ibat2,
             size: 20,
-            color: Colors.black,
+            color: Color(0xff11DFDE),
           ),
           Icon(
             CustomIcons.ichart_bar,
             size: 20,
-            color: Colors.black,
+            color: Color(0xff11DFDE),
           ),
           Icon(
             CustomIcons.ichart_alt,
             size: 20,
-            color: Colors.black,
+            color: Color(0xff11DFDE),
           ),
           Icon(
             CustomIcons.ihdd,
             size: 20,
-            color: Colors.black,
+            color: Color(0xff11DFDE),
           ),
           Icon(
             CustomIcons.itemperatire,
             size: 20,
-            color: Colors.black,
+            color: Color(0xff11DFDE),
           ),
         ],
-        color: Colors.white,
-        buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.black,
+        color: Color(0xff1C1C26),
+        buttonBackgroundColor: Color(0xff1C1C26),
+        backgroundColor: Color(0xff0F0F11),
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 400),
         onTap: _onTapped,
