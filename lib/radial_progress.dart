@@ -17,12 +17,15 @@ class _RadialProgressState extends State<RadialProgress>
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
 
+  double batteryPercentage;
+
   double progressDegrees = 0;
   var count = 0;
 
   @override
   void initState() {
     super.initState();
+    batteryPercentage = widget.batteryPercentage;
     _radialProgressAnimationController =
         AnimationController(vsync: this, duration: fillDuration);
     _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
@@ -31,11 +34,23 @@ class _RadialProgressState extends State<RadialProgress>
         setState(() {
           print('deg change');
           progressDegrees =
-              widget.batteryPercentage / 100 * _progressAnimation.value;
+              (batteryPercentage ?? 0) / 100 * _progressAnimation.value;
         });
       });
 
     _radialProgressAnimationController.forward();
+  }
+
+  @override
+  void didUpdateWidget(RadialProgress oldWidget) {
+    if (batteryPercentage != widget.batteryPercentage) {
+      setState(() {
+        batteryPercentage = widget.batteryPercentage;
+        progressDegrees =
+            (batteryPercentage ?? 0) / 100 * _progressAnimation.value;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

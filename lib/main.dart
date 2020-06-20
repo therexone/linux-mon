@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'linux_mon.dart';
+import 'package:device_preview/device_preview.dart';
 
-
-void main() => runApp(App());
+void main() => runApp(
+      DevicePreview(
+        enabled: false,
+        builder: (context) => App(),
+      ),
+    );
 
 class App extends StatelessWidget {
   @override
@@ -10,17 +15,13 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "LinuxMon",
       theme: ThemeData(
-        fontFamily: 'Poppins',
-        brightness: Brightness.dark,
-        canvasColor: Color(0xff0F0F11)
-    
-      ),
+          fontFamily: 'Poppins',
+          brightness: Brightness.dark,
+          canvasColor: Color(0xff0F0F11)),
       home: LinuxMon(),
     );
   }
 }
-
-
 
 // try {
 //   _deviceDataStream = IOWebSocketChannel.connect("ws://192.168.43.59:5678")

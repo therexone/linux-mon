@@ -32,8 +32,7 @@ dependencies:
   ping_discover_network: ^0.2.0+1
   wifi: ^0.1.5
   rflutter_alert: ^1.0.3
-  clay_containers: ^0.2.2
-
+  device_preview: ^0.4.5
 
 
 dev_dependencies:
