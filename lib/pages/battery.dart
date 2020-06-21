@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/radial_progress.dart';
 import 'package:linux_mon/utils/data_parser.dart';
+import 'package:linux_mon/widgets/radial_progress.dart';
 
 class BatteryPage extends StatefulWidget {
   BatteryPage(this.stream);
@@ -20,8 +20,7 @@ class _BatteryPageState extends State<BatteryPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        var data =
-            snapshot.hasData ? DataParser.fromRawJson(snapshot.data) : null;
+        var data = snapshot.hasData ? dataParserFromJson(snapshot.data) : null;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -37,7 +36,8 @@ class _BatteryPageState extends State<BatteryPage>
                 ),
               ),
               RadialProgress(
-                batteryPercentage: snapshot.hasData ? data.batteryPercentage: null,
+                batteryPercentage:
+                    snapshot.hasData ? data.batteryPercentage : null,
               ),
               snapshot.hasData
                   ? Container(
@@ -83,16 +83,20 @@ class _BatteryPageState extends State<BatteryPage>
                               ],
                             ),
                           ),
-                          data.plugged ? Image.asset('assets/charging-flash.png'): Image.asset('assets/on-battery.png'),
+                          data.plugged
+                              ? Image.asset('assets/charging-flash.png')
+                              : Image.asset('assets/on-battery.png'),
                         ],
                       ),
                     )
-                  : Text('DISCONNECTED',
+                  : Text(
+                      'DISCONNECTED',
                       style: TextStyle(
                           color: Color(0xff869EA5),
                           fontWeight: FontWeight.w200,
                           fontSize: 14.0,
-                          letterSpacing: 2))
+                          letterSpacing: 2),
+                    )
             ],
           ),
         );

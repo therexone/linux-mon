@@ -7,30 +7,27 @@
 
 <body>
     <script>
-    //TODO: fix the ws detection
-        function connect(ws) {
-                ws = new WebSocket("ws://192.168.43.59:5678/"),
-                    messages = document.createElement('ul');
-                ws.onmessage = function (event) {
-                    var messages = document.getElementsByTagName('ul')[0],
-                        message = document.createElement('li'),
-                        content = document.createTextNode(event.data);
-                    console.log(JSON.parse(event.data))
-                    console.log(typeof (event.data))
+        //TODO: fix the ws detection
+        function connect() {
+           var  ws = new WebSocket("ws://192.168.43.59:5678/"),
+                messages = document.createElement('ul');
+            ws.onmessage = function (event) {
+                 var messages = document.getElementsByTagName('ul')[0],
+                    message = document.createElement('li'),
+                    content = document.createTextNode(event.data);
+                console.log(JSON.parse(event.data))
+                console.log(typeof (event.data))
 
-                    message.appendChild(content);
-                    messages.appendChild(message);
-                };
-            }
-        setTimeout(() => {
-            var ws;
-            
-            connect(ws)
-            ws.onerror = function (error) {
-                connect(ws)
-            }
+                message.appendChild(content);
+                messages.appendChild(message);
+            };
             document.body.appendChild(messages);
-        }, 1000)
+
+        }
+
+        connect();
+    
+            
 
     </script>
 </body>

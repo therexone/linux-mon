@@ -23,7 +23,7 @@ class _DiskPageState extends State<DiskPage>
           child: snapshot.hasData
               ? Center(
                   child: Text(
-                    DataParser.fromRawJson(snapshot.data).diskUsage.toString(),
+                    dataParserFromJson(snapshot.data).diskUsage.toString(),
                     //  style: TextStyle(color: Colors.white),
                   ),
                 )

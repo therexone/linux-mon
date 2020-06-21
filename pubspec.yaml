@@ -33,6 +33,8 @@ dependencies:
   wifi: ^0.1.5
   rflutter_alert: ^1.0.3
   device_preview: ^0.4.5
+  flutter_echarts: ^1.3.5
+  js: ^0.6.2
 
 
 dev_dependencies:

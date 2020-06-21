@@ -24,7 +24,7 @@ class _TemperaturesPageState extends State<TemperaturesPage>
           child: snapshot.hasData
               ? Center(
                   child: Text(
-                    DataParser.fromRawJson(snapshot.data)
+                    dataParserFromJson(snapshot.data) 
                         .sensorTemperatures
                         .coretemp
                         .toString(),

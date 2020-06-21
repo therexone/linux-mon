@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linux_mon/pages/battery.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import './icons.dart';
+import './utils/icons.dart';
 import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -21,7 +20,7 @@ class _LinuxMonState extends State<LinuxMon> {
   static String _websocketUrl = 'ws://0.0.0.0';
   static IOWebSocketChannel channel = IOWebSocketChannel.connect(_websocketUrl);
   static Stream deviceDataStream = channel.stream.asBroadcastStream();
-  String connectionStatus = '';
+  String connectionStatus = 'Connecting'; 
 
   static List<Widget> _pages = [
     BatteryPage(deviceDataStream),
