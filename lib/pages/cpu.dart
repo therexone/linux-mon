@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:linux_mon/utils/constants.dart';
 import 'package:linux_mon/utils/dark_theme_script.dart';
 import 'package:linux_mon/utils/data_parser.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
@@ -25,11 +26,15 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double width = size.width;
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
+        List cpuData;
         if (snapshot.hasData) {
-          double clockspeed = dataParserFromJson(snapshot.data).cpuFreq[0];
+          cpuData = dataParserFromJson(snapshot.data).cpuFreq;
+          double clockspeed = cpuData[0];
 
           if (_data.length > 20) {
             _data.removeAt(0);
@@ -46,9 +51,16 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
           child: snapshot.hasData
               ? Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(
+                        'CPU STATS',
+                        style: kHeadingTextStyle,
+                      ),
                       Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0)),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0)),
                         padding: EdgeInsets.all(8.0),
                         child: Echarts(
                           extensions: [darkThemeScript],
@@ -62,8 +74,8 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                     grid: {
                         left: '15%',
                         right: '0%',
-                        bottom: '15%',
-                        top: '15%'
+                        bottom: '16%',
+                        top: '16%'
                       },
 
                           xAxis: {
@@ -116,11 +128,32 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
 
                   ''',
                         ),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 250,
+                        width: size.width * 0.94,
+                        height: size.height * 0.3,
                       ),
-                      Text(
-                        dataParserFromJson(snapshot.data).cpuFreq.toString(),
+                      GridView.count(
+                         padding:  EdgeInsets.symmetric(horizontal: width * 0.025 ),
+                        shrinkWrap: true,
+                        childAspectRatio: size.height / size.width * 0.75,
+                        crossAxisCount: 2,
+                        primary: false,
+                        crossAxisSpacing: width * 0.025,
+                        mainAxisSpacing: width * 0.03,
+                        children: [
+                          CpuStatsCard(
+                            cardString: 'Current',
+                            clockSpeed: cpuData[0],
+                            cardImgPath: 'assets/current-cspeed.png',
+                          ),
+                          CpuStatsCard(
+                              cardString: 'Max',
+                              clockSpeed: cpuData[2],
+                              cardImgPath: 'assets/max-cspeed.png'),
+                          CpuStatsCard(
+                              cardString: 'Min',
+                              clockSpeed: cpuData[1],
+                              cardImgPath: 'assets/min-cspeed.png')
+                        ],
                       ),
                     ],
                   ),
@@ -130,6 +163,34 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                 ),
         );
       },
+    );
+  }
+}
+
+class CpuStatsCard extends StatelessWidget {
+  final double clockSpeed;
+  final String cardString;
+  final String cardImgPath;
+
+  const CpuStatsCard(
+      {Key key, this.clockSpeed, this.cardString, this.cardImgPath})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: kCardBoxDecoration,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(cardImgPath),
+          Text(
+            '${clockSpeed.toStringAsFixed(0) ?? '--'} MHz',
+            style: kCardHeadingTextStyle,
+          ),
+          Text('$cardString Clock Speed', style: kCardSubHeadingTextStyle)
+        ],
+      ),
     );
   }
 }

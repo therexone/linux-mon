@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linux_mon/utils/constants.dart';
 import 'package:linux_mon/utils/data_parser.dart';
 import 'package:linux_mon/widgets/radial_progress.dart';
 
@@ -26,15 +27,7 @@ class _BatteryPageState extends State<BatteryPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                'POWER',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  letterSpacing: 4,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xff869EA5),
-                ),
-              ),
+              Text('POWER', style: kHeadingTextStyle),
               RadialProgress(
                 batteryPercentage:
                     snapshot.hasData ? data.batteryPercentage : null,
@@ -45,10 +38,7 @@ class _BatteryPageState extends State<BatteryPage>
                           horizontal: 32.0, vertical: 15.0),
                       height: MediaQuery.of(context).size.height * 0.12,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Color(0xff24242E),
-                      ),
+                      decoration: kCardBoxDecoration,
                       child: Row(
                         children: [
                           Expanded(
@@ -57,29 +47,15 @@ class _BatteryPageState extends State<BatteryPage>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 data.plugged
-                                    ? Text(
-                                        'PLUGGED IN',
-                                        style: TextStyle(
-                                            color: Color(0xfff9f9f9),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14.0),
-                                      )
+                                    ? Text('PLUGGED IN',
+                                        style: kCardHeadingTextStyle)
                                     : Text('ON BATTERY',
-                                        style: TextStyle(
-                                            color: Color(0xfff9f9f9),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14.0)),
+                                        style: kCardHeadingTextStyle),
                                 data.plugged
                                     ? Text('Connected to AC Supply',
-                                        style: TextStyle(
-                                            color: Color(0xff869EA5),
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 12.0))
+                                        style: kCardSubHeadingTextStyle)
                                     : Text('Using Battery power',
-                                        style: TextStyle(
-                                            color: Color(0xff869EA5),
-                                            fontWeight: FontWeight.w200,
-                                            fontSize: 12.0))
+                                        style: kCardSubHeadingTextStyle)
                               ],
                             ),
                           ),
