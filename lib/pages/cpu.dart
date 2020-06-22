@@ -132,7 +132,8 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                         height: size.height * 0.3,
                       ),
                       GridView.count(
-                         padding:  EdgeInsets.symmetric(horizontal: width * 0.025 ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: width * 0.025),
                         shrinkWrap: true,
                         childAspectRatio: size.height / size.width * 0.75,
                         crossAxisCount: 2,
@@ -183,7 +184,7 @@ class CpuStatsCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(cardImgPath),
+          Image.asset(cardImgPath, width: 35.0,),
           Text(
             '${clockSpeed.toStringAsFixed(0) ?? '--'} MHz',
             style: kCardHeadingTextStyle,

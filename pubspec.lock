@@ -128,13 +128,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
-  js:
-    dependency: "direct main"
-    description:
-      name: js
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.2"
   json_annotation:
     dependency: transitive
     description:

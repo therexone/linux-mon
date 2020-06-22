@@ -13,7 +13,10 @@ const kCardHeadingTextStyle = TextStyle(
 const kCardSubHeadingTextStyle = TextStyle(
     color: Color(0xff869EA5), fontWeight: FontWeight.w300, fontSize: 12.0);
 
+const kSubtitleTextStyle = TextStyle(
+    color: Color(0xff868689), fontSize: 12.0, fontWeight: FontWeight.w300);
+
 var kCardBoxDecoration = BoxDecoration(
-  borderRadius: BorderRadius.circular(15.0),
+  borderRadius: BorderRadius.circular(10.0),
   color: Color(0xff24242E),
 );
