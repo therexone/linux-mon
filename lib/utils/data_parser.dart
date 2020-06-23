@@ -10,6 +10,7 @@ class DataParser {
         this.cpuFreq,
         this.ramData,
         this.diskData,
+        this.swapData,
         this.sensorTemperatures,
         this.batteryPercentage,
         this.plugged,
@@ -19,7 +20,8 @@ class DataParser {
     String user;
     List<double> cpuFreq;
     RamData ramData;
-    DiskData diskData;
+    Data diskData;
+    Data swapData;
     SensorTemperatures sensorTemperatures;
     double batteryPercentage;
     bool plugged;
@@ -29,7 +31,8 @@ class DataParser {
         user: json["user"],
         cpuFreq: List<double>.from(json["cpu_freq"].map((x) => x.toDouble())),
         ramData: RamData.fromJson(json["ram_data"]),
-        diskData: DiskData.fromJson(json["disk_data"]),
+        diskData: Data.fromJson(json["disk_data"]),
+        swapData: Data.fromJson(json["swap_data"]),
         sensorTemperatures: SensorTemperatures.fromJson(json["sensor_temperatures"]),
         batteryPercentage: json["battery_percentage"].toDouble(),
         plugged: json["plugged"],
@@ -41,6 +44,7 @@ class DataParser {
         "cpu_freq": List<dynamic>.from(cpuFreq.map((x) => x)),
         "ram_data": ramData.toJson(),
         "disk_data": diskData.toJson(),
+        "swap_data": swapData.toJson(),
         "sensor_temperatures": sensorTemperatures.toJson(),
         "battery_percentage": batteryPercentage,
         "plugged": plugged,
@@ -48,8 +52,8 @@ class DataParser {
     };
 }
 
-class DiskData {
-    DiskData({
+class Data {
+    Data({
         this.percentageUsed,
         this.total,
         this.free,
@@ -59,7 +63,7 @@ class DiskData {
     int total;
     int free;
 
-    factory DiskData.fromJson(Map<String, dynamic> json) => DiskData(
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
         percentageUsed: json["percentage_used"].toDouble(),
         total: json["total"],
         free: json["free"],

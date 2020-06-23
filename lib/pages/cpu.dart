@@ -72,7 +72,7 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                         source: ${jsonEncode(_data)},
                       },
                     grid: {
-                        left: '15%',
+                        left: '12%',
                         right: '0%',
                         bottom: '16%',
                         top: '16%'
@@ -128,7 +128,7 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
 
                   ''',
                         ),
-                        width: size.width * 0.94,
+                        width: size.width * 0.95,
                         height: size.height * 0.3,
                       ),
                       GridView.count(

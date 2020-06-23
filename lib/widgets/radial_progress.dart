@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:linux_mon/utils/constants.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
   final double dataPercentage;
+  final double dataFontSize;
   final String subtitle;
+  final double radians;
+  final double radiusDenominator;
+  final double height;
+  final double width;
+  final bool blueGradient;
 
-  RadialProgress({this.dataPercentage, this.subtitle});
+  RadialProgress(
+      {this.dataPercentage,
+      this.subtitle,
+      this.radians,
+      this.radiusDenominator,
+      this.dataFontSize,
+      this.height,
+      this.width,
+      this.blueGradient = false});
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -64,66 +79,71 @@ class _RadialProgressState extends State<RadialProgress>
   Widget build(BuildContext context) {
     return CustomPaint(
       child: Container(
-        height: 200.0,
-        width: 200.0,
-        padding: EdgeInsets.symmetric(vertical: 40.0),
+        height: widget.height ?? 200.0,
+        width: widget.width ?? 200.0,
+        // padding: EdgeInsets.symmetric(vertical: 40.0),
         child: AnimatedOpacity(
           opacity: 1.0,
           duration: fadeInDuration,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.ideographic,
-                  children: [
-                    Text(
-                      widget.dataPercentage != null
-                          ? widget.dataPercentage.toStringAsFixed(1)
-                          : '--',
-                      style: TextStyle(
-                        fontSize: 48.0,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10.0,
-                            color: Colors.black12,
-                            offset: Offset(5.0, 5.0),
-                          ),
-                        ],
-                      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.ideographic,
+                children: [
+                  Text(
+                    widget.dataPercentage != null
+                        ? widget.dataPercentage.toStringAsFixed(1)
+                        : '--',
+                    style: TextStyle(
+                      fontSize: widget.dataFontSize ?? 48.0,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black12,
+                          offset: Offset(5.0, 5.0),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '%',
-                      style:
-                          TextStyle(fontSize: 18.0, color: Color(0xff869EA5)),
-                    )
-                  ],
-                ),
-                Text(
-                  widget.subtitle,
-                  style: TextStyle(
-                    fontSize: 9.0,
-                    letterSpacing: 1.5,
-                    color: Color(0xff869EA5),
                   ),
+                  Text(
+                    '%',
+                    style: TextStyle(fontSize: 18.0, color: Color(0xff869EA5)),
+                  )
+                ],
+              ),
+              Text(
+                widget.subtitle,
+                style: TextStyle(
+                  fontSize: 9.0,
+                  letterSpacing: 1.5,
+                  color: Color(0xff869EA5),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-      painter: RadialPainter(progressDegrees),
+      painter: RadialPainter(progressDegrees,
+          radians: widget.radians,
+          radiusDenominator: widget.radiusDenominator,
+          blueGradient: widget.blueGradient),
     );
   }
 }
 
 class RadialPainter extends CustomPainter {
   double progressInDegrees;
+  final double radians;
+  final double radiusDenominator;
+  final bool blueGradient;
 
-  RadialPainter(this.progressInDegrees);
+  RadialPainter(this.progressInDegrees,
+      {this.radians, this.radiusDenominator, this.blueGradient});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -134,20 +154,21 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     Offset center = Offset(size.width / 2, size.height / 2);
-    canvas.drawCircle(center, size.width / 2, paint);
+    canvas.drawCircle(center, size.width / (radiusDenominator ?? 2), paint);
 
     Paint progressPaint = Paint()
-      ..shader = LinearGradient(
-              colors: [Color(0xffC464FF), Color(0xffFB4ABF), Color(0xffFB4A4A)],
-              stops: [0.0, 0.4976, 0.9768])
+      ..shader = (!blueGradient
+              ? kPrimaryLinearGradient
+              : kSecondaryLinearGradient)
           .createShader(Rect.fromCircle(center: center, radius: size.width / 2))
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6.0;
 
     canvas.drawArc(
-        Rect.fromCircle(center: center, radius: size.width / 2),
-        math.radians(-90),
+        Rect.fromCircle(
+            center: center, radius: size.width / (radiusDenominator ?? 2)),
+        math.radians(radians ?? -90),
         math.radians(progressInDegrees),
         false,
         progressPaint);
