@@ -9,7 +9,7 @@ import 'pages/dashboard.dart';
 import 'pages/disk.dart';
 import 'pages/temperatures.dart';
 import 'utils/get_server_ip.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart' as url;
 
 class LinuxMon extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _LinuxMonState extends State<LinuxMon> {
   static String _websocketUrl = 'ws://0.0.0.0';
   static IOWebSocketChannel channel = IOWebSocketChannel.connect(_websocketUrl);
   static Stream deviceDataStream = channel.stream.asBroadcastStream();
-  String connectionStatus = 'Connecting'; 
+  String connectionStatus = 'Connecting';
 
   static List<Widget> _pages = [
     BatteryPage(deviceDataStream),
@@ -116,7 +116,8 @@ class _LinuxMonState extends State<LinuxMon> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget okButton = FlatButton(
+    Widget rescanButton = FlatButton(
+      color: Color(0xff1C1C26),
       child: Text("Rescan"),
       onPressed: () {
         setupStream();
@@ -124,11 +125,29 @@ class _LinuxMonState extends State<LinuxMon> {
       },
     );
 
+    Widget helpButton = FlatButton(
+      child: Text('Help'),
+      onPressed: () async {
+        await url.launch('https://github.com/therexone/linuxMon/readme.md');
+      },
+    );
+
     AlertDialog alert = AlertDialog(
-      title: Text("Rescan"),
-      content: Text("Could find any servers!"),
+      backgroundColor: Color(0xff24242E),
+      title: Text("No server found"),
+      contentPadding: EdgeInsets.all(20),
+      content: Text(
+        "Could not find a server! Please make sure the server is running on your device.",
+        style: TextStyle(
+          color: Color(0xffb9b9b9),
+          fontWeight: FontWeight.w200,
+          fontSize: 12.0,
+        ),
+      ),
+      actionsPadding: EdgeInsets.only(right: 10.0),
       actions: [
-        okButton,
+        helpButton,
+        rescanButton
       ],
     );
 
