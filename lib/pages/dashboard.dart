@@ -99,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage>
                           desc: 'CORE TEMPERATURE',
                         ),
                         DashboardStats(
-                          data: data.diskUsage.toStringAsFixed(0),
+                          data: data.diskData.percentageUsed.toStringAsFixed(0),
                           iconPath: 'assets/disk-usage.png',
                           unit: '%',
                           desc: 'DISK USAGE',
@@ -109,7 +109,7 @@ class _DashboardPageState extends State<DashboardPage>
                     Padding(
                       padding:  EdgeInsets.only(left: size.width * 0.1, right: size.width * 0.1, bottom: size.height * 0.025),
                       child: DashboardRamCard(
-                        data: data.ramUsage.toStringAsFixed(0),
+                        data: data.ramData.percentageUsed.toStringAsFixed(0),
                         iconPath: 'assets/ram.png',
                         unit: '%',
                         desc: 'CURRENT RAM USAGE',
