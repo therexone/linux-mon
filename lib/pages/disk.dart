@@ -32,45 +32,47 @@ class _DiskPageState extends State<DiskPage>
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: size.height * 0.025),
+                padding: EdgeInsets.only(top: size.height * 0.02),
                 child: Text('RAM & DISK', style: kHeadingTextStyle),
               ),
               Expanded(
                 flex: 1,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: width * 0.45,
-                      margin: EdgeInsets.only(
-                        top: 100.0,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: size.height * 0.01),
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: width * 0.45,
+                        margin: EdgeInsets.only(
+                          top: 100.0,
+                          right: width * 0.35
+                        ),
+                        child: RadialProgress(
+                          dataPercentage: snapshot.hasData
+                              ? data.diskData.percentageUsed
+                              : null,
+                          subtitle: 'DISK USAGE',
+                          radians: 90.0,
+                          radiusDenominator: 2.8,
+                          dataFontSize: 28.0,
+                          blueGradient: true,
+                        ),
                       ),
-                      child: RadialProgress(
-                        dataPercentage: snapshot.hasData
-                            ? data.diskData.percentageUsed
-                            : null,
-                        subtitle: 'DISK USAGE',
-                        radians: 90.0,
-                        radiusDenominator: 2.8,
-                        dataFontSize: 28.0,
-                        blueGradient: true,
-                      ),
-                    ),
-                    Container(
-                      width: width * 0.5,
-                      padding: EdgeInsets.zero,
-                      child: RadialProgress(
-                        dataPercentage: snapshot.hasData
-                            ? data.ramData.percentageUsed.floorToDouble()
-                            : null,
-                        subtitle: 'RAM USAGE',
-                        radiusDenominator: 2.4,
-                        dataFontSize: 36.0,
-                      ),
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(left: width * 0.35),
+                        width: width * 0.5,
+                        padding: EdgeInsets.zero,
+                        child: RadialProgress(
+                          dataPercentage: snapshot.hasData
+                              ? data.ramData.percentageUsed.floorToDouble()
+                              : null,
+                          subtitle: 'RAM USAGE',
+                          radiusDenominator: 2.4,
+                          dataFontSize: 36.0,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               snapshot.hasData
@@ -82,28 +84,35 @@ class _DiskPageState extends State<DiskPage>
                         children: [
                           RowDataCard(
                             size: size,
-                            data1: (data.ramData.available / 1000000000).toStringAsFixed(1),
-                            data2: (data.ramData.total / 1000000000).toStringAsFixed(0),
+                            data1: (data.ramData.available / 1000000000)
+                                .toStringAsFixed(1),
+                            data2: (data.ramData.total / 1000000000)
+                                .toStringAsFixed(0),
                             desc: 'RAM AVAILABLE',
                           ),
                           RowDataCard(
                             size: size,
-                            data1: (data.diskData.free / 1000000000).toStringAsFixed(1),
-                            data2: (data.diskData.total / 1000000000).toStringAsFixed(0),
+                            data1: (data.diskData.free / 1000000000)
+                                .toStringAsFixed(1),
+                            data2: (data.diskData.total / 1000000000)
+                                .toStringAsFixed(0),
                             desc: 'DISK SPACE REMAINING',
                           ),
                           RowDataCard(
                             size: size,
-                            data1: ((data.swapData.total - data.swapData.free) / 1000000000).toStringAsFixed(1),
-                            data2: (data.swapData.total / 1000000000).toStringAsFixed(0),
+                            data1: ((data.swapData.total - data.swapData.free) /
+                                    1000000000)
+                                .toStringAsFixed(1),
+                            data2: (data.swapData.total / 1000000000)
+                                .toStringAsFixed(0),
                             desc: 'SWAP USAGE',
                           )
                         ],
                       ),
                     )
                   : Expanded(
-                    flex: 1,
-                                      child: Text(
+                      flex: 1,
+                      child: Text(
                         'DISCONNECTED',
                         style: TextStyle(
                             color: Color(0xff869EA5),
@@ -111,7 +120,7 @@ class _DiskPageState extends State<DiskPage>
                             fontSize: 14.0,
                             letterSpacing: 2),
                       ),
-                  )
+                    )
             ],
           ),
         );
@@ -137,14 +146,14 @@ class RowDataCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 32.0, top: 16.0, bottom: 16.0),
+      padding: EdgeInsets.only(right: 24.0, top: 16.0, bottom: 16.0),
       height: size.height * 0.075,
       width: MediaQuery.of(context).size.width * 0.8,
       decoration: kCardBoxDecoration,
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 32.0),
+            padding: const EdgeInsets.only(right: 18.0),
             child: VerticalDivider(
               thickness: 3,
               width: 0,
