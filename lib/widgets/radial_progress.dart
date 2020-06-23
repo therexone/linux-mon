@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
-  final double batteryPercentage;
+  final double dataPercentage;
+  final String subtitle;
 
-  RadialProgress({this.batteryPercentage});
+  RadialProgress({this.dataPercentage, this.subtitle});
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -17,7 +18,7 @@ class _RadialProgressState extends State<RadialProgress>
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
 
-  double batteryPercentage;
+  double dataPercentage;
 
   double progressDegrees = 0;
   var count = 0;
@@ -25,7 +26,7 @@ class _RadialProgressState extends State<RadialProgress>
   @override
   void initState() {
     super.initState();
-    batteryPercentage = widget.batteryPercentage;
+    dataPercentage = widget.dataPercentage;
     _radialProgressAnimationController =
         AnimationController(vsync: this, duration: fillDuration);
     _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
@@ -34,7 +35,7 @@ class _RadialProgressState extends State<RadialProgress>
         setState(() {
           print('deg change');
           progressDegrees =
-              (batteryPercentage ?? 0) / 100 * _progressAnimation.value;
+              (dataPercentage ?? 0) / 100 * _progressAnimation.value;
         });
       });
 
@@ -43,11 +44,11 @@ class _RadialProgressState extends State<RadialProgress>
 
   @override
   void didUpdateWidget(RadialProgress oldWidget) {
-    if (batteryPercentage != widget.batteryPercentage) {
+    if (dataPercentage != widget.dataPercentage) {
       setState(() {
-        batteryPercentage = widget.batteryPercentage;
+        dataPercentage = widget.dataPercentage;
         progressDegrees =
-            (batteryPercentage ?? 0) / 100 * _progressAnimation.value;
+            (dataPercentage ?? 0) / 100 * _progressAnimation.value;
       });
     }
     super.didUpdateWidget(oldWidget);
@@ -79,8 +80,8 @@ class _RadialProgressState extends State<RadialProgress>
                   textBaseline: TextBaseline.ideographic,
                   children: [
                     Text(
-                      widget.batteryPercentage != null
-                          ? widget.batteryPercentage.toStringAsFixed(1)
+                      widget.dataPercentage != null
+                          ? widget.dataPercentage.toStringAsFixed(1)
                           : '--',
                       style: TextStyle(
                         fontSize: 48.0,
@@ -102,7 +103,7 @@ class _RadialProgressState extends State<RadialProgress>
                   ],
                 ),
                 Text(
-                  'BATTERY LEVEL',
+                  widget.subtitle,
                   style: TextStyle(
                     fontSize: 9.0,
                     letterSpacing: 1.5,

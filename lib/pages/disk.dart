@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linux_mon/utils/data_parser.dart';
+import 'package:linux_mon/widgets/radial_progress.dart';
 
 class DiskPage extends StatefulWidget {
   DiskPage(this.stream);
@@ -18,15 +19,18 @@ class _DiskPageState extends State<DiskPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
+        DataParser data;
+        if (snapshot.hasData) {
+          data = dataParserFromJson(snapshot.data);
+        }
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: snapshot.hasData
-              ? Center(
-                  child: Text(
-                    dataParserFromJson(snapshot.data).diskData.percentageUsed.toString(),
-                    //  style: TextStyle(color: Colors.white),
-                  ),
-                )
+              ? Column(
+                children: [
+                    RadialProgress()
+                ],
+              )
               : Center(
                   child: Text('No data'),
                 ),

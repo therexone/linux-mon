@@ -29,8 +29,9 @@ class _BatteryPageState extends State<BatteryPage>
             children: [
               Text('POWER', style: kHeadingTextStyle),
               RadialProgress(
-                batteryPercentage:
+                dataPercentage:
                     snapshot.hasData ? data.batteryPercentage : null,
+                    subtitle: 'BATTERY LEVEL',
               ),
               snapshot.hasData
                   ? Container(
