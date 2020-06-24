@@ -5,6 +5,7 @@ import 'package:linux_mon/utils/constants.dart';
 import 'package:linux_mon/utils/dark_theme_script.dart';
 import 'package:linux_mon/utils/data_parser.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
+import 'package:linux_mon/widgets/cpu_stats_card.dart';
 
 class CpuPage extends StatefulWidget {
   CpuPage(this.stream);
@@ -164,34 +165,6 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                 ),
         );
       },
-    );
-  }
-}
-
-class CpuStatsCard extends StatelessWidget {
-  final double clockSpeed;
-  final String cardString;
-  final String cardImgPath;
-
-  const CpuStatsCard(
-      {Key key, this.clockSpeed, this.cardString, this.cardImgPath})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: kCardBoxDecoration,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(cardImgPath, width: 35.0,),
-          Text(
-            '${clockSpeed.toStringAsFixed(0) ?? '--'} MHz',
-            style: kCardHeadingTextStyle,
-          ),
-          Text('$cardString Clock Speed', style: kCardSubHeadingTextStyle)
-        ],
-      ),
     );
   }
 }
