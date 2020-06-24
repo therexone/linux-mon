@@ -189,7 +189,7 @@ class _LinuxMonState extends State<LinuxMon> {
                       connectionStatus.toUpperCase(),
                       style: TextStyle(color: Color(0xff869EA5), fontSize: 12),
                     ),
-                  ],
+                  ],  
                 ),
               ),
             ),
