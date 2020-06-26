@@ -41,6 +41,7 @@ class _BatteryPageState extends State<BatteryPage>
                       width: MediaQuery.of(context).size.width * 0.85,
                       decoration: kCardBoxDecoration,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Column(
@@ -55,7 +56,7 @@ class _BatteryPageState extends State<BatteryPage>
                                 data.plugged
                                     ? Text('Connected to AC Supply',
                                         style: kCardSubHeadingTextStyle)
-                                    : Text('Using Battery power',
+                                    : Text('Approximately ${(data.approxSecLeft ~/ 60)} Mins left',
                                         style: kCardSubHeadingTextStyle)
                               ],
                             ),
