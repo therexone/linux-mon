@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'linux_mon.dart';
-import 'package:device_preview/device_preview.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(
-      DevicePreview(
-        enabled: false,
-        builder: (context) => App(),
-      ),
-    );
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then(
+    (_) => runApp(App()),
+  );
+}
 
 class App extends StatelessWidget {
   @override
