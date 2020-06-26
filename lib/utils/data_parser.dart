@@ -103,8 +103,6 @@ class RamData {
 class SensorTemperatures {
     SensorTemperatures({
         this.acpitz,
-        this.pchSkylake,
-        this.coretemp,
     });
 
     List<List<dynamic>> acpitz;
@@ -113,13 +111,9 @@ class SensorTemperatures {
 
     factory SensorTemperatures.fromJson(Map<String, dynamic> json) => SensorTemperatures(
         acpitz: List<List<dynamic>>.from(json["acpitz"].map((x) => List<dynamic>.from(x.map((x) => x)))),
-        pchSkylake: List<List<dynamic>>.from(json["pch_skylake"].map((x) => List<dynamic>.from(x.map((x) => x)))),
-        coretemp: List<List<dynamic>>.from(json["coretemp"].map((x) => List<dynamic>.from(x.map((x) => x)))),
     );
 
     Map<String, dynamic> toJson() => {
         "acpitz": List<dynamic>.from(acpitz.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        "pch_skylake": List<dynamic>.from(pchSkylake.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        "coretemp": List<dynamic>.from(coretemp.map((x) => List<dynamic>.from(x.map((x) => x)))),
     };
 }
