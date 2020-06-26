@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/utils/constants.dart';
-
-
+import '../utils/constants.dart';
 
 class RowDataCard extends StatelessWidget {
   const RowDataCard({
@@ -48,4 +46,3 @@ class RowDataCard extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/utils/constants.dart';
+import '../utils/constants.dart';
 
 class StatsCard extends StatelessWidget {
   final double data;

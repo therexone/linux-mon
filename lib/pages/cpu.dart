@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:linux_mon/utils/constants.dart';
-import 'package:linux_mon/utils/dark_theme_script.dart';
-import 'package:linux_mon/utils/data_parser.dart';
+import '../utils/constants.dart';
+import '../utils/dark_theme_script.dart';
+import '../utils/data_parser.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-import 'package:linux_mon/widgets/cpu_stats_card.dart';
+import '../widgets/cpu_stats_card.dart';
 
 class CpuPage extends StatefulWidget {
   CpuPage(this.stream);
@@ -165,13 +165,13 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                 )
               : Center(
                   child: Text(
-                      'DISCONNECTED',
-                      style: TextStyle(
-                          color: Color(0xff869EA5),
-                          fontWeight: FontWeight.w200,
-                          fontSize: 14.0,
-                          letterSpacing: 2),
-                    ),
+                    'DISCONNECTED',
+                    style: TextStyle(
+                        color: Color(0xff869EA5),
+                        fontWeight: FontWeight.w200,
+                        fontSize: 14.0,
+                        letterSpacing: 2),
+                  ),
                 ),
         );
       },

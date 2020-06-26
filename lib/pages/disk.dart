@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/utils/constants.dart';
-import 'package:linux_mon/utils/data_parser.dart';
-import 'package:linux_mon/widgets/radial_progress.dart';
-import 'package:linux_mon/widgets/ram_data_card.dart';
+import '../utils/constants.dart';
+import '../utils/data_parser.dart';
+import '../widgets/radial_progress.dart';
+import '../widgets/ram_data_card.dart';
 
 class DiskPage extends StatefulWidget {
   DiskPage(this.stream);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/pages/battery.dart';
+import './pages/battery.dart';
 import './utils/icons.dart';
 import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';

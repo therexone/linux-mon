@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linux_mon/utils/constants.dart';
+import '../utils/constants.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
