@@ -80,7 +80,7 @@ class _TemperaturesPageState extends State<TemperaturesPage>
                           fontWeight: FontWeight.w200,
                           fontSize: 14.0,
                           letterSpacing: 2),
-                    ),
+                    ),  
             ],
           ),
         );

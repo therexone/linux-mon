@@ -61,7 +61,7 @@ class _BatteryPageState extends State<BatteryPage>
                             ),
                           ),
                           data.plugged
-                              ? Image.asset('assets/charging-flash.png')
+                              ? Image.asset('assets/charging-flash.png', height: 22,)
                               : Image.asset('assets/on-battery.png'),
                         ],
                       ),

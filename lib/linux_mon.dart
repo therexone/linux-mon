@@ -145,10 +145,7 @@ class _LinuxMonState extends State<LinuxMon> {
         ),
       ),
       actionsPadding: EdgeInsets.only(right: 10.0),
-      actions: [
-        helpButton,
-        rescanButton
-      ],
+      actions: [helpButton, rescanButton],
     );
 
     showDialog(
@@ -181,7 +178,9 @@ class _LinuxMonState extends State<LinuxMon> {
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                   children: [
-                    Image.asset('assets/connected-circle.png'),
+                    connectionStatus == 'Disconnected'
+                        ? Image.asset('assets/disconnected-circle.png', height: 7,)
+                        : Image.asset('assets/connected-circle.png', height: 7),
                     SizedBox(
                       width: 5.0,
                     ),
@@ -189,7 +188,7 @@ class _LinuxMonState extends State<LinuxMon> {
                       connectionStatus.toUpperCase(),
                       style: TextStyle(color: Color(0xff869EA5), fontSize: 12),
                     ),
-                  ],  
+                  ],
                 ),
               ),
             ),
