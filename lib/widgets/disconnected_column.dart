@@ -13,8 +13,9 @@ class DisconnectedColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               'DISCONNECTED',

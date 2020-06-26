@@ -142,18 +142,21 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                         crossAxisSpacing: width * 0.025,
                         mainAxisSpacing: width * 0.03,
                         children: [
-                          CpuStatsCard(
-                            cardString: 'Current',
-                            clockSpeed: cpuData[0],
+                          StatsCard(
+                            cardString: 'Current Clock Speed',
+                            dataUnit: 'MHz',
+                            data: cpuData[0],
                             cardImgPath: 'assets/current-cspeed.png',
                           ),
-                          CpuStatsCard(
-                              cardString: 'Max',
-                              clockSpeed: cpuData[2],
+                          StatsCard(
+                              cardString: 'Max Clock Speed',
+                              dataUnit: 'MHz',
+                              data: cpuData[2],
                               cardImgPath: 'assets/max-cspeed.png'),
-                          CpuStatsCard(
-                              cardString: 'Min',
-                              clockSpeed: cpuData[1],
+                          StatsCard(
+                              cardString: 'Min Clock Speed',
+                              dataUnit: 'MHz',
+                              data: cpuData[1],
                               cardImgPath: 'assets/min-cspeed.png')
                         ],
                       ),
@@ -161,7 +164,14 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                   ),
                 )
               : Center(
-                  child: Text('No data'),
+                  child: Text(
+                      'DISCONNECTED',
+                      style: TextStyle(
+                          color: Color(0xff869EA5),
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14.0,
+                          letterSpacing: 2),
+                    ),
                 ),
         );
       },

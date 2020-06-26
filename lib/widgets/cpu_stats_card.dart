@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:linux_mon/utils/constants.dart';
 
-
-class CpuStatsCard extends StatelessWidget {
-  final double clockSpeed;
+class StatsCard extends StatelessWidget {
+  final double data;
+  final String dataUnit;
   final String cardString;
   final String cardImgPath;
 
-  const CpuStatsCard(
-      {Key key, this.clockSpeed, this.cardString, this.cardImgPath})
+  const StatsCard(
+      {Key key, this.data, this.cardString, this.cardImgPath, this.dataUnit})
       : super(key: key);
 
   @override
@@ -18,12 +18,15 @@ class CpuStatsCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(cardImgPath, width: 35.0,),
+          Image.asset(
+            cardImgPath,
+            width: 35.0,
+          ),
           Text(
-            '${clockSpeed.toStringAsFixed(0) ?? '--'} MHz',
+            '${data.toStringAsFixed(0) ?? '--'} $dataUnit',
             style: kCardHeadingTextStyle,
           ),
-          Text('$cardString Clock Speed', style: kCardSubHeadingTextStyle)
+          Text('$cardString', style: kCardSubHeadingTextStyle)
         ],
       ),
     );

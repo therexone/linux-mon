@@ -8,9 +8,8 @@ class RadialProgress extends StatefulWidget {
   final String subtitle;
   final double radians;
   final double radiusDenominator;
-  final double height;
-  final double width;
   final bool blueGradient;
+  final String dataUnit;
 
   RadialProgress(
       {this.dataPercentage,
@@ -18,9 +17,7 @@ class RadialProgress extends StatefulWidget {
       this.radians,
       this.radiusDenominator,
       this.dataFontSize,
-      this.height,
-      this.width,
-      this.blueGradient = false});
+      this.blueGradient = false, this.dataUnit});
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -79,8 +76,8 @@ class _RadialProgressState extends State<RadialProgress>
   Widget build(BuildContext context) {
     return CustomPaint(
       child: Container(
-        height: widget.height ?? 200.0,
-        width: widget.width ?? 200.0,
+        height: 200.0,
+        width: 200.0,
         // padding: EdgeInsets.symmetric(vertical: 40.0),
         child: AnimatedOpacity(
           opacity: 1.0,
@@ -111,7 +108,7 @@ class _RadialProgressState extends State<RadialProgress>
                     ),
                   ),
                   Text(
-                    '%',
+                    widget.dataUnit ?? '%',
                     style: TextStyle(fontSize: 18.0, color: Color(0xff869EA5)),
                   )
                 ],
