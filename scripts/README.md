@@ -1,8 +1,7 @@
 ## Running the server
 **There are three ways to run the server on your machine:**
-1. Download the single executable binary from `dist`
-
-  [Download executable](https://github.com/therexone/linux-mon/scripts/dist/)
+1. Download the single executable binary from `dist/` 
+  [Download executable](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-dae-mon)
 
 2. Run the `linux-dae-mon.py` file which creates a daemon, given all the requirements are installed frim `requirements.txt`
 
