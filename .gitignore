@@ -10,3 +10,4 @@ linux_mon.iml
 scripts/__pycache__/
 scripts/.vscode
 scripts/.python-version
+scripts/linux-dae-mon.spec
