@@ -5,8 +5,8 @@ import websockets
 import json
 import daemon
 import psutil
-import webbrowser
 import os
+from termcolor import colored
 
 
 def getDeviceInfo():
@@ -56,7 +56,14 @@ def daemon_process():
 
 
 if __name__ == '__main__':
-    webbrowser.open('file://'+ os.path.realpath('stats.html'))
+    print('--------LINUX MON-------')
+    print('Starting server daemon at port 5678...')
+    print(colored('Started websocket server at ws://localhost:5678', 'green'))
+    print('To stop the server get daemon PID')
+    print(colored('ps axuw | grep linux-dae-mon', 'yellow'))
+    print(colored('kill <pid>\n', 'red'))    
     with daemon.DaemonContext():
         daemon_process()
+        print(os.getpid())
+        
     
