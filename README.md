@@ -8,12 +8,12 @@ An app to monitor linux PC stats such as CPU, Battery, RAM etc. on your phone.
 # Installation
 **Install the server on your linux PC**
 
-- [Download](https://github.com/therexone/linux-mon/) the server executable
+- [Download](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-dae-mon) the server executable
 - Start the server 
 ```
 ./linux-dae-mon
 ```
-*For other ways to run the server see [scripts/README.md](https://github.com/)*
+*For other ways to run the server see [scripts/README.md](https://github.com/therexone/linux-mon/blob/master/scripts/README.md)*
 
 - [Download](https://github.com/therexone/linux-mon/releases/download/v1.0.0-alpha%2B1/app-release.apk) and Install the app
 
