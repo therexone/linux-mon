@@ -1,4 +1,5 @@
 import psutil
+import platform
 
 def getDeviceInfo():
     data = {}
@@ -23,9 +24,14 @@ def getDeviceInfo():
         'total': swap.total,
         'free': swap.free
     }
-    data['sensor_temperatures'] = psutil.sensors_temperatures(fahrenheit=False)
+    if platform.system() != 'Windows':
+        data['sensor_temperatures'] = psutil.sensor_temperatures(fahrenheit=False)
+    else: 
+        data['sensor_temperatures'] = {"acpitz":[["", 0.0, 0.0, 0.0]]}
     data['battery_percentage'] = battery.percent
     data['plugged'] = battery.power_plugged
     data['approx_sec_left'] = battery.secsleft
     
     return data
+    
+
