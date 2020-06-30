@@ -38,10 +38,10 @@ class DisconnectedColumn extends StatelessWidget {
                       child: InkWell(
               onTap: () async {
                 await url
-                    .launch('https://github.com/therexone/linuxMon/readme.md');
+                    .launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
               },
               child: Text(
-                '- More help - https://github.com/therexone/linuxMon/readme.md',
+                '- More help - Github',
                 style: TextStyle(
                     color: Color(0xff11DFDE),
                     fontSize: 12.0,

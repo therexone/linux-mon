@@ -128,7 +128,7 @@ class _LinuxMonState extends State<LinuxMon> {
     Widget helpButton = FlatButton(
       child: Text('Help'),
       onPressed: () async {
-        await url.launch('https://github.com/therexone/linuxMon/readme.md');
+        await url.launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
       },
     );
 
