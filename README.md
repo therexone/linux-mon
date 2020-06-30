@@ -14,6 +14,9 @@ An app to monitor linux PC stats such as CPU, Battery, RAM etc. on your phone.
 ./linux-dae-mon
 ```
 #### WINDOWS
+> - *Temperature readings are not available on windows as the python library used ([psutil](https://pypi.org/project/psutil/)) doesn't have this option* <br>
+> - *CPU frequencies may not be accurate*
+
 Download `linux-mon-windows.exe`
  [Download exe](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-mon-windows.exe)
  
