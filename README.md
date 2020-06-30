@@ -13,7 +13,7 @@ An app to monitor linux PC stats such as CPU, Battery, RAM etc. on your phone.
 ```
 ./linux-dae-mon
 ```
-### WINDOWS
+#### WINDOWS
 Download `linux-mon-windows.exe`
  [Download exe](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-mon-windows.exe)
  
