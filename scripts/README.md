@@ -1,11 +1,11 @@
 ## Running the server
 **There are three ways to run the server on your machine:**
 1. 
-### LINUX 
+#### LINUX 
 Download the single executable binary from `dist/` 
   [Download executable](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-dae-mon)
  
-### WINDOWS
+#### WINDOWS
 Download the `linux-mon-windows.exe` from `dist/`
  [Download .exe](https://github.com/therexone/linux-mon/raw/master/scripts/dist/linux-mon-windows.exe)
   
