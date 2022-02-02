@@ -8,7 +8,7 @@ class DashboardRamCard extends StatelessWidget {
   final String desc;
 
   const DashboardRamCard(
-      {Key key, this.data, this.unit, this.iconPath, this.desc})
+      {Key? key, required this.data, required this.unit, required this.iconPath, required this.desc})
       : super(key: key);
 
   @override

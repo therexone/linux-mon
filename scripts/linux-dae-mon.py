@@ -44,7 +44,7 @@ async def sendBatteryLevel(websocket, path):
     while True:
         deviceInfo = getDeviceInfo()
         await websocket.send(json.dumps(deviceInfo))
-        await asyncio.sleep(random.random() * 5)
+        await asyncio.sleep(2)
 
 
 def daemon_process():

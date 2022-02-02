@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import './pages/battery.dart';
 import './utils/icons.dart';
-import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'pages/cpu.dart';
 import 'pages/dashboard.dart';
 import 'pages/disk.dart';
 import 'pages/temperatures.dart';
-import 'utils/get_server_ip.dart';
+import 'package:LinuxMon/utils/get_server_ip.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
 class LinuxMon extends StatefulWidget {
@@ -30,7 +29,7 @@ class _LinuxMonState extends State<LinuxMon> {
     TemperaturesPage(deviceDataStream),
   ];
 
-  PageController pageController;
+  PageController? pageController;
   int _selectedIndex = 2;
 
   wserror(err) async {
@@ -97,7 +96,7 @@ class _LinuxMonState extends State<LinuxMon> {
 
   @override
   void dispose() {
-    pageController.dispose();
+    pageController!.dispose();
     super.dispose();
   }
 
@@ -105,7 +104,7 @@ class _LinuxMonState extends State<LinuxMon> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    pageController!.jumpToPage(index);
   }
 
   void onPageChanged(int index) {

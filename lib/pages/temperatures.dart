@@ -24,10 +24,10 @@ class _TemperaturesPageState extends State<TemperaturesPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        List tempData;
+        List? tempData;
         if (snapshot.hasData) {
           tempData =
-              dataParserFromJson(snapshot.data).sensorTemperatures.acpitz[0];
+              dataParserFromJson(snapshot.data!.toString()).sensorTemperatures.acpitz[0];
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -39,7 +39,8 @@ class _TemperaturesPageState extends State<TemperaturesPage>
                 style: kHeadingTextStyle,
               ),
               RadialProgress(
-                dataPercentage: snapshot.hasData ? tempData[1] : null,
+                radians: -90,
+                dataPercentage: snapshot.hasData ? tempData![1] : null,
                 dataUnit: ' °C',
                 subtitle: 'ACPITZ TEMPERATURE',
                 radiusDenominator: 2.25,
@@ -58,7 +59,7 @@ class _TemperaturesPageState extends State<TemperaturesPage>
                         StatsCard(
                           cardString: 'Current Temperature',
                           dataUnit: ' °C',
-                          data: tempData[1],
+                          data: tempData![1],
                           cardImgPath: 'assets/current-cspeed.png',
                         ),
                         StatsCard(

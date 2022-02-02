@@ -24,9 +24,9 @@ class _DashboardPageState extends State<DashboardPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        DataParser data;
+        DataParser? data;
         if (snapshot.hasData) {
-          data = dataParserFromJson(snapshot.data);
+          data = dataParserFromJson(snapshot.data!.toString());
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -59,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage>
                               width: 10.0,
                             ),
                             Text(
-                              data.user,
+                              data!.user,
                               style: kCardHeadingTextStyle,
                             )
                           ]),

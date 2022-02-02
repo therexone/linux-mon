@@ -12,12 +12,13 @@ class RadialProgress extends StatefulWidget {
   final String dataUnit;
 
   RadialProgress(
-      {this.dataPercentage,
-      this.subtitle,
-      this.radians,
-      this.radiusDenominator,
-      this.dataFontSize,
-      this.blueGradient = false, this.dataUnit});
+      {required this.dataPercentage,
+      required this.subtitle,
+      required this.radians,
+      required this.radiusDenominator,
+      required this.dataFontSize,
+      this.blueGradient = false,
+      required this.dataUnit});
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -25,12 +26,12 @@ class RadialProgress extends StatefulWidget {
 
 class _RadialProgressState extends State<RadialProgress>
     with SingleTickerProviderStateMixin {
-  AnimationController _radialProgressAnimationController;
-  Animation<double> _progressAnimation;
+  AnimationController? _radialProgressAnimationController;
+  Animation<double>? _progressAnimation;
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
 
-  double dataPercentage;
+  double? dataPercentage;
 
   double progressDegrees = 0;
   var count = 0;
@@ -42,16 +43,16 @@ class _RadialProgressState extends State<RadialProgress>
     _radialProgressAnimationController =
         AnimationController(vsync: this, duration: fillDuration);
     _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
-        parent: _radialProgressAnimationController, curve: Curves.easeIn))
+        parent: _radialProgressAnimationController!, curve: Curves.easeIn))
       ..addListener(() {
         setState(() {
           print('deg change');
           progressDegrees =
-              (dataPercentage ?? 0) / 100 * _progressAnimation.value;
+              (dataPercentage ?? 0) / 100 * _progressAnimation!.value;
         });
       });
 
-    _radialProgressAnimationController.forward();
+    _radialProgressAnimationController!.forward();
   }
 
   @override
@@ -60,7 +61,7 @@ class _RadialProgressState extends State<RadialProgress>
       setState(() {
         dataPercentage = widget.dataPercentage;
         progressDegrees =
-            (dataPercentage ?? 0) / 100 * _progressAnimation.value;
+            (dataPercentage ?? 0) / 100 * _progressAnimation!.value;
       });
     }
     super.didUpdateWidget(oldWidget);
@@ -68,7 +69,7 @@ class _RadialProgressState extends State<RadialProgress>
 
   @override
   void dispose() {
-    _radialProgressAnimationController.dispose();
+    _radialProgressAnimationController!.dispose();
     super.dispose();
   }
 
@@ -96,7 +97,7 @@ class _RadialProgressState extends State<RadialProgress>
                         ? widget.dataPercentage.toStringAsFixed(1)
                         : '--',
                     style: TextStyle(
-                      fontSize: widget.dataFontSize ?? 48.0,
+                      fontSize: widget.dataFontSize ,
                       fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
@@ -108,7 +109,7 @@ class _RadialProgressState extends State<RadialProgress>
                     ),
                   ),
                   Text(
-                    widget.dataUnit ?? '%',
+                    widget.dataUnit,
                     style: TextStyle(fontSize: 18.0, color: Color(0xff869EA5)),
                   )
                 ],
@@ -140,7 +141,7 @@ class RadialPainter extends CustomPainter {
   final bool blueGradient;
 
   RadialPainter(this.progressInDegrees,
-      {this.radians, this.radiusDenominator, this.blueGradient});
+      {required this.radians, required this.radiusDenominator,required this.blueGradient});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -151,7 +152,7 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     Offset center = Offset(size.width / 2, size.height / 2);
-    canvas.drawCircle(center, size.width / (radiusDenominator ?? 2), paint);
+    canvas.drawCircle(center, size.width / (radiusDenominator ), paint);
 
     Paint progressPaint = Paint()
       ..shader = (!blueGradient
@@ -164,8 +165,8 @@ class RadialPainter extends CustomPainter {
 
     canvas.drawArc(
         Rect.fromCircle(
-            center: center, radius: size.width / (radiusDenominator ?? 2)),
-        math.radians(radians ?? -90),
+            center: center, radius: size.width / (radiusDenominator )),
+        math.radians(radians ),
         math.radians(progressInDegrees),
         false,
         progressPaint);

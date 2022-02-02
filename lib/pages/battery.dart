@@ -21,7 +21,7 @@ class _BatteryPageState extends State<BatteryPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        var data = snapshot.hasData ? dataParserFromJson(snapshot.data) : null;
+        var data = snapshot.hasData ? dataParserFromJson(snapshot.data!.toString()) : null;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -29,8 +29,12 @@ class _BatteryPageState extends State<BatteryPage>
             children: [
               Text('POWER', style: kHeadingTextStyle),
               RadialProgress(
+                radians: -90,
+                radiusDenominator: 2,
+                dataUnit: "%",
+                dataFontSize: 48,
                 dataPercentage:
-                    snapshot.hasData ? data.batteryPercentage : null,
+                    snapshot.hasData ? data!.batteryPercentage : 0,
                     subtitle: 'BATTERY LEVEL',
               ),
               snapshot.hasData
@@ -48,7 +52,7 @@ class _BatteryPageState extends State<BatteryPage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                data.plugged
+                                data!.plugged
                                     ? Text('PLUGGED IN',
                                         style: kCardHeadingTextStyle)
                                     : Text('ON BATTERY',

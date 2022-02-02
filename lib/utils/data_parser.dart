@@ -6,15 +6,15 @@ String dataParserToJson(DataParser data) => json.encode(data.toJson());
 
 class DataParser {
     DataParser({
-        this.user,
-        this.cpuFreq,
-        this.ramData,
-        this.diskData,
-        this.swapData,
-        this.sensorTemperatures,
-        this.batteryPercentage,
-        this.plugged,
-        this.approxSecLeft,
+        required this.user,
+        required this.cpuFreq,
+        required this.ramData,
+        required this.diskData,
+        required this.swapData,
+        required this.sensorTemperatures,
+        required this.batteryPercentage,
+        required this.plugged,
+        required this.approxSecLeft,
     });
 
     String user;
@@ -35,7 +35,7 @@ class DataParser {
         swapData: Data.fromJson(json["swap_data"]),
         sensorTemperatures: SensorTemperatures.fromJson(json["sensor_temperatures"]),
         batteryPercentage: json["battery_percentage"].toDouble(),
-        plugged: json["plugged"],
+        plugged: json["plugged"]??false,
         approxSecLeft: json["approx_sec_left"],
     );
 
@@ -54,9 +54,9 @@ class DataParser {
 
 class Data {
     Data({
-        this.percentageUsed,
-        this.total,
-        this.free,
+        required this.percentageUsed,
+        required this.total,
+        required this.free,
     });
 
     double percentageUsed;
@@ -78,9 +78,9 @@ class Data {
 
 class RamData {
     RamData({
-        this.percentageUsed,
-        this.total,
-        this.available,
+        this.percentageUsed=0,
+        this.total=0,
+        this.available=0,
     });
 
     double percentageUsed;
@@ -102,12 +102,12 @@ class RamData {
 
 class SensorTemperatures {
     SensorTemperatures({
-        this.acpitz,
+        required this.acpitz,
     });
 
     List<List<dynamic>> acpitz;
-    List<List<dynamic>> pchSkylake;
-    List<List<dynamic>> coretemp;
+    List<List<dynamic>>? pchSkylake;
+    List<List<dynamic>>? coretemp;
 
     factory SensorTemperatures.fromJson(Map<String, dynamic> json) => SensorTemperatures(
         acpitz: List<List<dynamic>>.from(json["acpitz"].map((x) => List<dynamic>.from(x.map((x) => x)))),

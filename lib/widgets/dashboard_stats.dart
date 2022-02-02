@@ -8,12 +8,11 @@ class DashboardStats extends StatelessWidget {
   final String desc;
 
   const DashboardStats({
-    Key key,
-    this.data,
-    this.unit,
-    this.iconPath,
-    this.desc,
-  }) : super(key: key);
+    required this.data,
+    required this.unit,
+    required this.iconPath,
+    required this.desc,
+  }) ;
 
   @override
   Widget build(BuildContext context) {

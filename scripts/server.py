@@ -9,7 +9,7 @@ async def sendBatteryLevel(websocket, path):
     while True:
         deviceInfo = getDeviceInfo()
         await websocket.send(json.dumps(deviceInfo))
-        await asyncio.sleep(2)
+        await asyncio.sleep(0.5)
 
 start_server = websockets.serve(sendBatteryLevel, "0.0.0.0", 5678)
 

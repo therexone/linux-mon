@@ -8,7 +8,7 @@ class StatsCard extends StatelessWidget {
   final String cardImgPath;
 
   const StatsCard(
-      {Key key, this.data, this.cardString, this.cardImgPath, this.dataUnit})
+      {Key? key, required this.data, required this.cardString, required this.cardImgPath, required this.dataUnit})
       : super(key: key);
 
   @override

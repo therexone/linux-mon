@@ -23,9 +23,9 @@ class _DiskPageState extends State<DiskPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        DataParser data;
+        DataParser? data;
         if (snapshot.hasData) {
-          data = dataParserFromJson(snapshot.data);
+          data = dataParserFromJson(snapshot.data!.toString());
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -49,9 +49,10 @@ class _DiskPageState extends State<DiskPage>
                           right: width * 0.35
                         ),
                         child: RadialProgress(
+                          dataUnit: "%",
                           dataPercentage: snapshot.hasData
-                              ? data.diskData.percentageUsed
-                              : null,
+                              ? data!.diskData.percentageUsed
+                              : 0,
                           subtitle: 'DISK USAGE',
                           radians: 90.0,
                           radiusDenominator: 2.8,
@@ -64,9 +65,11 @@ class _DiskPageState extends State<DiskPage>
                         width: width * 0.5,
                         padding: EdgeInsets.zero,
                         child: RadialProgress(
+                          radians: -90,
+                          dataUnit: "%",
                           dataPercentage: snapshot.hasData
-                              ? data.ramData.percentageUsed.floorToDouble()
-                              : null,
+                              ? data!.ramData.percentageUsed.floorToDouble()
+                              : 0,
                           subtitle: 'RAM USAGE',
                           radiusDenominator: 2.4,
                           dataFontSize: 36.0,
@@ -85,7 +88,7 @@ class _DiskPageState extends State<DiskPage>
                         children: [
                           RowDataCard(
                             size: size,
-                            data1: (data.ramData.available / 1000000000)
+                            data1: (data!.ramData.available / 1000000000)
                                 .toStringAsFixed(1),
                             data2: (data.ramData.total / 1000000000)
                                 .toStringAsFixed(0),
