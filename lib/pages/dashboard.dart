@@ -59,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage>
                               width: 10.0,
                             ),
                             Text(
-                              data!.user,
+                              data!.user+" @ "+"0.0.0.0",
                               style: kCardHeadingTextStyle,
                             )
                           ]),

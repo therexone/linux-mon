@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-DataParser dataParserFromJson(String str) => DataParser.fromJson(json.decode(str));
+DataParser dataParserFromJson(String str){
+  // print(str);
+  return DataParser.fromJson(json.decode(str));
+} 
 
 String dataParserToJson(DataParser data) => json.encode(data.toJson());
 
@@ -24,7 +27,7 @@ class DataParser {
     Data swapData;
     SensorTemperatures sensorTemperatures;
     double batteryPercentage;
-    bool plugged;
+    String plugged;
     int approxSecLeft;
 
     factory DataParser.fromJson(Map<String, dynamic> json) => DataParser(
@@ -35,8 +38,8 @@ class DataParser {
         swapData: Data.fromJson(json["swap_data"]),
         sensorTemperatures: SensorTemperatures.fromJson(json["sensor_temperatures"]),
         batteryPercentage: json["battery_percentage"].toDouble(),
-        plugged: json["plugged"]??false,
-        approxSecLeft: json["approx_sec_left"],
+        plugged: json["plugged"].toString(),
+        approxSecLeft: remainingTime(json["approx_sec_left"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -116,4 +119,18 @@ class SensorTemperatures {
     Map<String, dynamic> toJson() => {
         "acpitz": List<dynamic>.from(acpitz.map((x) => List<dynamic>.from(x.map((x) => x)))),
     };
+}
+
+int remainingTime(String receivedLeftTime){
+    int retStr=3600;
+    if (receivedLeftTime=="BatteryTime.POWER_TIME_UNKNOWN"){
+        retStr=-1;
+    } else if (receivedLeftTime=="BatteryTime.POWER_TIME_UNLIMITED"){
+        retStr=-2;
+    } else if (int.parse(receivedLeftTime)>0){
+        retStr=int.parse(receivedLeftTime);
+    } else {
+        retStr=-3;
+    }
+    return retStr;
 }

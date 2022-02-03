@@ -4,7 +4,8 @@ import random
 import websockets
 import json
 from data import getDeviceInfo
-
+from memory_profiler import profile as prf
+@profile
 async def sendBatteryLevel(websocket, path):
     while True:
         deviceInfo = getDeviceInfo()

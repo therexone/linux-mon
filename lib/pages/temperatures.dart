@@ -40,7 +40,7 @@ class _TemperaturesPageState extends State<TemperaturesPage>
               ),
               RadialProgress(
                 radians: -90,
-                dataPercentage: snapshot.hasData ? tempData![1] : null,
+                dataPercentage: snapshot.hasData ? tempData![1] : 0,
                 dataUnit: ' °C',
                 subtitle: 'ACPITZ TEMPERATURE',
                 radiusDenominator: 2.25,

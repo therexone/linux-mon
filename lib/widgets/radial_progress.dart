@@ -93,9 +93,7 @@ class _RadialProgressState extends State<RadialProgress>
                 textBaseline: TextBaseline.ideographic,
                 children: [
                   Text(
-                    widget.dataPercentage != null
-                        ? widget.dataPercentage.toStringAsFixed(1)
-                        : '--',
+                        widget.dataPercentage.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: widget.dataFontSize ,
                       fontWeight: FontWeight.bold,

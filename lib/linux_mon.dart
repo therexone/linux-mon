@@ -115,8 +115,9 @@ class _LinuxMonState extends State<LinuxMon> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget rescanButton = FlatButton(
-      color: Color(0xff1C1C26),
+    Widget rescanButton = TextButton(
+      // color: Color(0xff1C1C26),
+      style: TextButton.styleFrom(backgroundColor: Color(0xff1C1C26)),
       child: Text("Rescan"),
       onPressed: () {
         setupStream();
@@ -124,7 +125,7 @@ class _LinuxMonState extends State<LinuxMon> {
       },
     );
 
-    Widget helpButton = FlatButton(
+    Widget helpButton = TextButton(
       child: Text('Help'),
       onPressed: () async {
         await url.launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
