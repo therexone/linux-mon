@@ -13,7 +13,7 @@ Future<String?> getServerIP() async {
 
   await for (NetworkAddress addr in stream) {
     if (addr.exists) {
-      print('Found device: ${addr.ip}');
+      // print('Found device: ${addr.ip}');
       serverIP = addr.ip;
       break;
     }

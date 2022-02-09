@@ -46,7 +46,7 @@ class _RadialProgressState extends State<RadialProgress>
         parent: _radialProgressAnimationController!, curve: Curves.easeIn))
       ..addListener(() {
         setState(() {
-          print('deg change');
+          // print('deg change');
           progressDegrees =
               (dataPercentage ?? 0) / 100 * _progressAnimation!.value;
         });

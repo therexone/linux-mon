@@ -21,7 +21,7 @@ class _DashboardPageState extends State<DashboardPage>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double width = size.width;
-    print(widget.ipAddr);
+    // print(widget.ipAddr);
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {

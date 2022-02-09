@@ -34,7 +34,7 @@ class _LinuxMonState extends State<LinuxMon> {
   int _selectedIndex = 2;
 
   wserror(err) async {
-    print(new DateTime.now().toString() + " Connection error: $err");
+    // print(new DateTime.now().toString() + " Connection error: $err");
     setState(() {
       connectionStatus = 'Disconnected';
     });
@@ -42,8 +42,8 @@ class _LinuxMonState extends State<LinuxMon> {
   }
 
   reconnect() async {
-    print(channel);
-    print(channel.closeCode);
+    // print(channel);
+    // print(channel.closeCode);
     await Future.delayed(Duration(seconds: 4));
     setState(() {
       connectionStatus = 'Scanning';
@@ -55,15 +55,15 @@ class _LinuxMonState extends State<LinuxMon> {
       _websocketUrl = 'ws://$ip:5678';
       ipAddr=ip;
     }).catchError((e) {
-      print('No IP Found');
+      // print('No IP Found');
       setState(() {
         connectionStatus = 'Disconnected';
       });
     });
     setState(() {
-      print(new DateTime.now().toString() + " Connection attempt started.");
+      // print(new DateTime.now().toString() + " Connection attempt started.");
       channel = IOWebSocketChannel.connect(_websocketUrl);
-      print(new DateTime.now().toString() + " Connection attempt completed.");
+      // print(new DateTime.now().toString() + " Connection attempt completed.");
       deviceDataStream = channel.stream.asBroadcastStream();
       _pages = [
         BatteryPage(deviceDataStream),
@@ -74,7 +74,9 @@ class _LinuxMonState extends State<LinuxMon> {
       ];
       connectionStatus='Connected';
     });
-    deviceDataStream.listen((data) => print('got data'),
+    // deviceDataStream.listen((data) => print('got data'),
+    //     onDone: reconnect, onError: wserror, cancelOnError: true);
+    deviceDataStream.listen((data) {},
         onDone: reconnect, onError: wserror, cancelOnError: true);
   }
 
@@ -88,10 +90,12 @@ class _LinuxMonState extends State<LinuxMon> {
       }
       _websocketUrl = 'ws://$websocketIp:5678';
       ipAddr=websocketIp;
-      deviceDataStream.listen((data) => print('got data'),
+      // deviceDataStream.listen((data) => print('got data'),
+      //     onDone: reconnect, onError: wserror, cancelOnError: true);
+      deviceDataStream.listen((data){},
           onDone: reconnect, onError: wserror, cancelOnError: true);
     }).catchError((e) {
-      print('could not get server');
+      // print('could not get server');
       setState(() {
         connectionStatus = 'Disconnected';
       });
