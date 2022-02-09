@@ -93,9 +93,9 @@ class _RadialProgressState extends State<RadialProgress>
                 textBaseline: TextBaseline.ideographic,
                 children: [
                   Text(
-                        widget.dataPercentage.toStringAsFixed(2),
+                    widget.dataPercentage.toStringAsFixed(2),
                     style: TextStyle(
-                      fontSize: widget.dataFontSize ,
+                      fontSize: widget.dataFontSize,
                       fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
@@ -139,7 +139,9 @@ class RadialPainter extends CustomPainter {
   final bool blueGradient;
 
   RadialPainter(this.progressInDegrees,
-      {required this.radians, required this.radiusDenominator,required this.blueGradient});
+      {required this.radians,
+      required this.radiusDenominator,
+      required this.blueGradient});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -150,7 +152,7 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     Offset center = Offset(size.width / 2, size.height / 2);
-    canvas.drawCircle(center, size.width / (radiusDenominator ), paint);
+    canvas.drawCircle(center, size.width / (radiusDenominator), paint);
 
     Paint progressPaint = Paint()
       ..shader = (!blueGradient
@@ -163,8 +165,8 @@ class RadialPainter extends CustomPainter {
 
     canvas.drawArc(
         Rect.fromCircle(
-            center: center, radius: size.width / (radiusDenominator )),
-        math.radians(radians ),
+            center: center, radius: size.width / (radiusDenominator)),
+        math.radians(radians),
         math.radians(progressInDegrees),
         false,
         progressPaint);

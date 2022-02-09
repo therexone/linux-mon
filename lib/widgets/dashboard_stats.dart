@@ -12,7 +12,7 @@ class DashboardStats extends StatelessWidget {
     required this.unit,
     required this.iconPath,
     required this.desc,
-  }) ;
+  });
 
   @override
   Widget build(BuildContext context) {

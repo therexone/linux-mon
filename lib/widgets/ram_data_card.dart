@@ -7,7 +7,7 @@ class RowDataCard extends StatelessWidget {
     required this.desc,
     required this.data1,
     required this.data2,
-  }) ;
+  });
 
   final Size size;
   final String data1;

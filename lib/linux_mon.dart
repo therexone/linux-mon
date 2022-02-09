@@ -17,14 +17,15 @@ class LinuxMon extends StatefulWidget {
 
 class _LinuxMonState extends State<LinuxMon> {
   static String _websocketUrl = 'ws://0.0.0.0';
+  static String? ipAddr;
   static IOWebSocketChannel channel = IOWebSocketChannel.connect(_websocketUrl);
   static Stream deviceDataStream = channel.stream.asBroadcastStream();
-  String connectionStatus = 'Connecting';
+  String connectionStatus = 'Scanning';
 
   static List<Widget> _pages = [
     BatteryPage(deviceDataStream),
     CpuPage(deviceDataStream),
-    DashboardPage(deviceDataStream),
+    DashboardPage(deviceDataStream, ipAddr),
     DiskPage(deviceDataStream),
     TemperaturesPage(deviceDataStream),
   ];
@@ -41,9 +42,24 @@ class _LinuxMonState extends State<LinuxMon> {
   }
 
   reconnect() async {
-    if (channel != null) {
-      await Future.delayed(Duration(seconds: 4));
-    }
+    print(channel);
+    print(channel.closeCode);
+    await Future.delayed(Duration(seconds: 4));
+    setState(() {
+      connectionStatus = 'Scanning';
+    });
+    getServerIP().then((ip) {
+      if (ip == '') {
+        throw ('noIP');
+      }
+      _websocketUrl = 'ws://$ip:5678';
+      ipAddr=ip;
+    }).catchError((e) {
+      print('No IP Found');
+      setState(() {
+        connectionStatus = 'Disconnected';
+      });
+    });
     setState(() {
       print(new DateTime.now().toString() + " Connection attempt started.");
       channel = IOWebSocketChannel.connect(_websocketUrl);
@@ -52,35 +68,33 @@ class _LinuxMonState extends State<LinuxMon> {
       _pages = [
         BatteryPage(deviceDataStream),
         CpuPage(deviceDataStream),
-        DashboardPage(deviceDataStream),
+        DashboardPage(deviceDataStream, ipAddr),
         DiskPage(deviceDataStream),
         TemperaturesPage(deviceDataStream),
       ];
+      connectionStatus='Connected';
     });
-    if (channel.closeCode != null) {
-      setState(() {
-        connectionStatus = 'Disconnected';
-      });
-    } else {
-      setState(() {
-        connectionStatus = 'Connected';
-      });
-    }
-
     deviceDataStream.listen((data) => print('got data'),
         onDone: reconnect, onError: wserror, cancelOnError: true);
   }
 
   void setupStream() {
+    setState(() {
+      connectionStatus = 'Scanning';
+    });
     getServerIP().then((websocketIp) {
-      if (websocketIp == null) {
+      if (websocketIp == '') {
         throw ('no servers found');
       }
       _websocketUrl = 'ws://$websocketIp:5678';
+      ipAddr=websocketIp;
       deviceDataStream.listen((data) => print('got data'),
           onDone: reconnect, onError: wserror, cancelOnError: true);
     }).catchError((e) {
       print('could not get server');
+      setState(() {
+        connectionStatus = 'Disconnected';
+      });
       Future.delayed(Duration.zero, () {
         showAlertDialog(context);
       });
@@ -120,15 +134,16 @@ class _LinuxMonState extends State<LinuxMon> {
       style: TextButton.styleFrom(backgroundColor: Color(0xff1C1C26)),
       child: Text("Rescan"),
       onPressed: () {
-        setupStream();
         Navigator.pop(context);
+        setupStream();
       },
     );
 
     Widget helpButton = TextButton(
       child: Text('Help'),
       onPressed: () async {
-        await url.launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
+        await url.launch(
+            'https://github.com/therexone/linux-mon/blob/master/README.md#installation');
       },
     );
 
@@ -179,8 +194,14 @@ class _LinuxMonState extends State<LinuxMon> {
                 child: Row(
                   children: [
                     connectionStatus == 'Disconnected'
-                        ? Image.asset('assets/disconnected-circle.png', height: 7,)
-                        : Image.asset('assets/connected-circle.png', height: 7),
+                        ? Image.asset(
+                            'assets/disconnected-circle.png',
+                            height: 7,
+                          )
+                        : connectionStatus == 'Connected'
+                            ? Image.asset('assets/connected-circle.png',
+                                height: 7)
+                            : Image.asset('assets/scanning.png', height: 7),
                     SizedBox(
                       width: 5.0,
                     ),

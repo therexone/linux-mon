@@ -33,8 +33,8 @@ class _BatteryPageState extends State<BatteryPage>
             children: [
               snapshot.hasData
                   ? Expanded(
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text('POWER', style: kHeadingTextStyle),
                           RadialProgress(
@@ -58,7 +58,8 @@ class _BatteryPageState extends State<BatteryPage>
                                   child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: bottomBatteryPart(data)
                                       /*
                                 [
@@ -85,7 +86,7 @@ class _BatteryPageState extends State<BatteryPage>
                           )
                         ],
                       ),
-                  )
+                    )
                   : Text(
                       'DISCONNECTED',
                       style: TextStyle(

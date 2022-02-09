@@ -1,8 +1,6 @@
 import psutil
 import platform
-from memory_profiler import profile as prf
 
-@profile
 def getDeviceInfo():
     data = {}
     battery = psutil.sensors_battery()
@@ -34,7 +32,7 @@ def getDeviceInfo():
     data['plugged'] = battery.power_plugged
     data['approx_sec_left'] = str(battery.secsleft)
 
-#    print(data["battery_percentage"], data["plugged"], data['approx_sec_left'])
+    print(data["battery_percentage"], data["plugged"], data['approx_sec_left'])
     return data
     
 

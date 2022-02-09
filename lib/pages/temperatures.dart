@@ -26,28 +26,29 @@ class _TemperaturesPageState extends State<TemperaturesPage>
       builder: (context, snapshot) {
         List? tempData;
         if (snapshot.hasData) {
-          tempData =
-              dataParserFromJson(snapshot.data!.toString()).sensorTemperatures.acpitz[0];
+          tempData = dataParserFromJson(snapshot.data!.toString())
+              .sensorTemperatures
+              .acpitz[0];
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'TEMPERATURES',
-                style: kHeadingTextStyle,
-              ),
-              RadialProgress(
-                radians: -90,
-                dataPercentage: snapshot.hasData ? tempData![1] : 0,
-                dataUnit: ' °C',
-                subtitle: 'ACPITZ TEMPERATURE',
-                radiusDenominator: 2.25,
-                dataFontSize: 36.0,
-              ),
-              snapshot.hasData
-                  ? GridView.count(
+          child: snapshot.hasData
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'TEMPERATURES',
+                      style: kHeadingTextStyle,
+                    ),
+                    RadialProgress(
+                      radians: -90,
+                      dataPercentage: tempData![1],
+                      dataUnit: ' °C',
+                      subtitle: 'ACPITZ TEMPERATURE',
+                      radiusDenominator: 2.25,
+                      dataFontSize: 36.0,
+                    ),
+                    GridView.count(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.025),
                       shrinkWrap: true,
                       childAspectRatio: size.height / size.width * 0.75,
@@ -59,7 +60,7 @@ class _TemperaturesPageState extends State<TemperaturesPage>
                         StatsCard(
                           cardString: 'Current Temperature',
                           dataUnit: ' °C',
-                          data: tempData![1],
+                          data: tempData[1],
                           cardImgPath: 'assets/current-cspeed.png',
                         ),
                         StatsCard(
@@ -74,16 +75,17 @@ class _TemperaturesPageState extends State<TemperaturesPage>
                             cardImgPath: 'assets/max-cspeed.png')
                       ],
                     )
-                  : Text(
-                      'DISCONNECTED',
-                      style: TextStyle(
-                          color: Color(0xff869EA5),
-                          fontWeight: FontWeight.w200,
-                          fontSize: 14.0,
-                          letterSpacing: 2),
-                    ),  
-            ],
-          ),
+                  ],
+                )
+              : Center(
+                  child: Text(
+                  'DISCONNECTED',
+                  style: TextStyle(
+                      color: Color(0xff869EA5),
+                      fontWeight: FontWeight.w200,
+                      fontSize: 14.0,
+                      letterSpacing: 2),
+                )),
         );
       },
     );
