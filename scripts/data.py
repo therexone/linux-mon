@@ -32,7 +32,7 @@ def getDeviceInfo():
     data['plugged'] = battery.power_plugged
     data['approx_sec_left'] = str(battery.secsleft)
 
-    print(data["battery_percentage"], data["plugged"], data['approx_sec_left'])
+#    print(data["battery_percentage"], data["plugged"], data['approx_sec_left'])
     return data
     
 
