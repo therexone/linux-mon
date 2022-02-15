@@ -169,6 +169,7 @@ class _LinuxMonState extends State<LinuxMon> {
 
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },
