@@ -45,8 +45,6 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
             'name': DateTime.now().millisecondsSinceEpoch,
             'value': clockspeed.round()
           });
-          // print(jsonData);
-          // print(_data);
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),

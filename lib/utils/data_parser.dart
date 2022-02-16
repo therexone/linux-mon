@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 DataParser dataParserFromJson(String str) {
-  // print(str);
   return DataParser.fromJson(json.decode(str));
 }
 
