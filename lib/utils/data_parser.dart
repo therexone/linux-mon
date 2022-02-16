@@ -1,45 +1,48 @@
 import 'dart:convert';
 
-DataParser dataParserFromJson(String str) => DataParser.fromJson(json.decode(str));
+DataParser dataParserFromJson(String str) {
+  return DataParser.fromJson(json.decode(str));
+}
 
 String dataParserToJson(DataParser data) => json.encode(data.toJson());
 
 class DataParser {
-    DataParser({
-        this.user,
-        this.cpuFreq,
-        this.ramData,
-        this.diskData,
-        this.swapData,
-        this.sensorTemperatures,
-        this.batteryPercentage,
-        this.plugged,
-        this.approxSecLeft,
-    });
+  DataParser({
+    required this.user,
+    required this.cpuFreq,
+    required this.ramData,
+    required this.diskData,
+    required this.swapData,
+    required this.sensorTemperatures,
+    required this.batteryPercentage,
+    required this.plugged,
+    required this.approxSecLeft,
+  });
 
-    String user;
-    List<double> cpuFreq;
-    RamData ramData;
-    Data diskData;
-    Data swapData;
-    SensorTemperatures sensorTemperatures;
-    double batteryPercentage;
-    bool plugged;
-    int approxSecLeft;
+  String user;
+  List<double> cpuFreq;
+  RamData ramData;
+  Data diskData;
+  Data swapData;
+  SensorTemperatures sensorTemperatures;
+  double batteryPercentage;
+  String plugged;
+  int approxSecLeft;
 
-    factory DataParser.fromJson(Map<String, dynamic> json) => DataParser(
+  factory DataParser.fromJson(Map<String, dynamic> json) => DataParser(
         user: json["user"],
         cpuFreq: List<double>.from(json["cpu_freq"].map((x) => x.toDouble())),
         ramData: RamData.fromJson(json["ram_data"]),
         diskData: Data.fromJson(json["disk_data"]),
         swapData: Data.fromJson(json["swap_data"]),
-        sensorTemperatures: SensorTemperatures.fromJson(json["sensor_temperatures"]),
+        sensorTemperatures:
+            SensorTemperatures.fromJson(json["sensor_temperatures"]),
         batteryPercentage: json["battery_percentage"].toDouble(),
-        plugged: json["plugged"],
-        approxSecLeft: json["approx_sec_left"],
-    );
+        plugged: json["plugged"].toString(),
+        approxSecLeft: remainingTime(json["approx_sec_left"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "user": user,
         "cpu_freq": List<dynamic>.from(cpuFreq.map((x) => x)),
         "ram_data": ramData.toJson(),
@@ -49,71 +52,88 @@ class DataParser {
         "battery_percentage": batteryPercentage,
         "plugged": plugged,
         "approx_sec_left": approxSecLeft,
-    };
+      };
 }
 
 class Data {
-    Data({
-        this.percentageUsed,
-        this.total,
-        this.free,
-    });
+  Data({
+    required this.percentageUsed,
+    required this.total,
+    required this.free,
+  });
 
-    double percentageUsed;
-    int total;
-    int free;
+  double percentageUsed;
+  int total;
+  int free;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         percentageUsed: json["percentage_used"].toDouble(),
         total: json["total"],
         free: json["free"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "percentage_used": percentageUsed,
         "total": total,
         "free": free,
-    };
+      };
 }
 
 class RamData {
-    RamData({
-        this.percentageUsed,
-        this.total,
-        this.available,
-    });
+  RamData({
+    this.percentageUsed = 0,
+    this.total = 0,
+    this.available = 0,
+  });
 
-    double percentageUsed;
-    int total;
-    int available;
+  double percentageUsed;
+  int total;
+  int available;
 
-    factory RamData.fromJson(Map<String, dynamic> json) => RamData(
+  factory RamData.fromJson(Map<String, dynamic> json) => RamData(
         percentageUsed: json["percentage_used"].toDouble(),
         total: json["total"],
         available: json["available"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "percentage_used": percentageUsed,
         "total": total,
         "available": available,
-    };
+      };
 }
 
 class SensorTemperatures {
-    SensorTemperatures({
-        this.acpitz,
-    });
+  SensorTemperatures({
+    required this.acpitz,
+  });
 
-    List<List<dynamic>> acpitz;
-    List<List<dynamic>> pchSkylake;
-    List<List<dynamic>> coretemp;
+  List<List<dynamic>> acpitz;
+  List<List<dynamic>>? pchSkylake;
+  List<List<dynamic>>? coretemp;
 
-    factory SensorTemperatures.fromJson(Map<String, dynamic> json) => SensorTemperatures(
-        acpitz: List<List<dynamic>>.from(json["acpitz"].map((x) => List<dynamic>.from(x.map((x) => x)))),
-    );
+  factory SensorTemperatures.fromJson(Map<String, dynamic> json) =>
+      SensorTemperatures(
+        acpitz: List<List<dynamic>>.from(
+            json["acpitz"].map((x) => List<dynamic>.from(x.map((x) => x)))),
+      );
 
-    Map<String, dynamic> toJson() => {
-        "acpitz": List<dynamic>.from(acpitz.map((x) => List<dynamic>.from(x.map((x) => x)))),
-    };
+  Map<String, dynamic> toJson() => {
+        "acpitz": List<dynamic>.from(
+            acpitz.map((x) => List<dynamic>.from(x.map((x) => x)))),
+      };
+}
+
+int remainingTime(String receivedLeftTime) {
+  int retStr = 3600;
+  if (receivedLeftTime == "BatteryTime.POWER_TIME_UNKNOWN") {
+    retStr = -1;
+  } else if (receivedLeftTime == "BatteryTime.POWER_TIME_UNLIMITED") {
+    retStr = -2;
+  } else if (int.parse(receivedLeftTime) > 0) {
+    retStr = int.parse(receivedLeftTime);
+  } else {
+    retStr = -3;
+  }
+  return retStr;
 }

@@ -3,12 +3,11 @@ import '../utils/constants.dart';
 
 class RowDataCard extends StatelessWidget {
   const RowDataCard({
-    Key key,
-    @required this.size,
-    @required this.desc,
-    @required this.data1,
-    @required this.data2,
-  }) : super(key: key);
+    required this.size,
+    required this.desc,
+    required this.data1,
+    required this.data2,
+  });
 
   final Size size;
   final String data1;

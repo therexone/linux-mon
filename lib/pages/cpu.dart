@@ -9,6 +9,7 @@ import '../widgets/cpu_stats_card.dart';
 
 class CpuPage extends StatefulWidget {
   CpuPage(this.stream);
+
   final Stream stream;
 
   @override
@@ -23,7 +24,7 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
     {'name': DateTime.now().millisecondsSinceEpoch, 'value': 0}
   ];
 
-  String jsonData;
+  String? jsonData;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,9 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        List cpuData;
+        List? cpuData;
         if (snapshot.hasData) {
-          cpuData = dataParserFromJson(snapshot.data).cpuFreq;
+          cpuData = dataParserFromJson(snapshot.data!.toString()).cpuFreq;
           double clockspeed = cpuData[0];
 
           if (_data.length > 20) {
@@ -44,8 +45,6 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
             'name': DateTime.now().millisecondsSinceEpoch,
             'value': clockspeed.round()
           });
-          // print(jsonData);
-          // print(_data);
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -145,7 +144,7 @@ class _CpuPageState extends State<CpuPage> with AutomaticKeepAliveClientMixin {
                           StatsCard(
                             cardString: 'Current Clock Speed',
                             dataUnit: 'MHz',
-                            data: cpuData[0],
+                            data: cpuData![0],
                             cardImgPath: 'assets/current-cspeed.png',
                           ),
                           StatsCard(

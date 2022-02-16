@@ -23,15 +23,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-// try {
-//   _deviceDataStream = IOWebSocketChannel.connect("ws://192.168.43.59:5678")
-//       .stream
-//       .asBroadcastStream();
-//   // _deviceDataStream.listen((event) {
-//   //   var data = DataParser.fromRawJson(event);
-//   //   print(data.cpuFreq);
-//   // });
-// } catch (e) {
-//   print(e);
-// }

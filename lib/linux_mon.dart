@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import './pages/battery.dart';
 import './utils/icons.dart';
-import './utils/get_server_ip.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'pages/cpu.dart';
 import 'pages/dashboard.dart';
 import 'pages/disk.dart';
 import 'pages/temperatures.dart';
-import 'utils/get_server_ip.dart';
+import 'package:LinuxMon/utils/get_server_ip.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
 class LinuxMon extends StatefulWidget {
@@ -18,23 +17,23 @@ class LinuxMon extends StatefulWidget {
 
 class _LinuxMonState extends State<LinuxMon> {
   static String _websocketUrl = 'ws://0.0.0.0';
+  static String? ipAddr;
   static IOWebSocketChannel channel = IOWebSocketChannel.connect(_websocketUrl);
   static Stream deviceDataStream = channel.stream.asBroadcastStream();
-  String connectionStatus = 'Connecting';
+  String connectionStatus = 'Scanning';
 
   static List<Widget> _pages = [
     BatteryPage(deviceDataStream),
     CpuPage(deviceDataStream),
-    DashboardPage(deviceDataStream),
+    DashboardPage(deviceDataStream, ipAddr),
     DiskPage(deviceDataStream),
     TemperaturesPage(deviceDataStream),
   ];
 
-  PageController pageController;
+  PageController? pageController;
   int _selectedIndex = 2;
 
   wserror(err) async {
-    print(new DateTime.now().toString() + " Connection error: $err");
     setState(() {
       connectionStatus = 'Disconnected';
     });
@@ -42,46 +41,53 @@ class _LinuxMonState extends State<LinuxMon> {
   }
 
   reconnect() async {
-    if (channel != null) {
-      await Future.delayed(Duration(seconds: 4));
-    }
+    await Future.delayed(Duration(seconds: 4));
     setState(() {
-      print(new DateTime.now().toString() + " Connection attempt started.");
+      connectionStatus = 'Scanning';
+    });
+    getServerIP().then((ip) {
+      if (ip == '') {
+        throw ('noIP');
+      }
+      _websocketUrl = 'ws://$ip:5678';
+      ipAddr=ip;
+    }).catchError((e) {
+      setState(() {
+        connectionStatus = 'Disconnected';
+      });
+    });
+    setState(() {
       channel = IOWebSocketChannel.connect(_websocketUrl);
-      print(new DateTime.now().toString() + " Connection attempt completed.");
       deviceDataStream = channel.stream.asBroadcastStream();
       _pages = [
         BatteryPage(deviceDataStream),
         CpuPage(deviceDataStream),
-        DashboardPage(deviceDataStream),
+        DashboardPage(deviceDataStream, ipAddr),
         DiskPage(deviceDataStream),
         TemperaturesPage(deviceDataStream),
       ];
+      connectionStatus='Connected';
     });
-    if (channel.closeCode != null) {
-      setState(() {
-        connectionStatus = 'Disconnected';
-      });
-    } else {
-      setState(() {
-        connectionStatus = 'Connected';
-      });
-    }
-
-    deviceDataStream.listen((data) => print('got data'),
+    deviceDataStream.listen((data) {},
         onDone: reconnect, onError: wserror, cancelOnError: true);
   }
 
   void setupStream() {
+    setState(() {
+      connectionStatus = 'Scanning';
+    });
     getServerIP().then((websocketIp) {
-      if (websocketIp == null) {
+      if (websocketIp == '') {
         throw ('no servers found');
       }
       _websocketUrl = 'ws://$websocketIp:5678';
-      deviceDataStream.listen((data) => print('got data'),
+      ipAddr=websocketIp;
+      deviceDataStream.listen((data){},
           onDone: reconnect, onError: wserror, cancelOnError: true);
     }).catchError((e) {
-      print('could not get server');
+      setState(() {
+        connectionStatus = 'Disconnected';
+      });
       Future.delayed(Duration.zero, () {
         showAlertDialog(context);
       });
@@ -97,7 +103,7 @@ class _LinuxMonState extends State<LinuxMon> {
 
   @override
   void dispose() {
-    pageController.dispose();
+    pageController!.dispose();
     super.dispose();
   }
 
@@ -105,7 +111,7 @@ class _LinuxMonState extends State<LinuxMon> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    pageController!.jumpToPage(index);
   }
 
   void onPageChanged(int index) {
@@ -115,20 +121,21 @@ class _LinuxMonState extends State<LinuxMon> {
   }
 
   showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget rescanButton = FlatButton(
-      color: Color(0xff1C1C26),
+    Widget rescanButton = TextButton(
+      // color: Color(0xff1C1C26),
+      style: TextButton.styleFrom(backgroundColor: Color(0xff1C1C26)),
       child: Text("Rescan"),
       onPressed: () {
-        setupStream();
         Navigator.pop(context);
+        setupStream();
       },
     );
 
-    Widget helpButton = FlatButton(
+    Widget helpButton = TextButton(
       child: Text('Help'),
       onPressed: () async {
-        await url.launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
+        await url.launch(
+            'https://github.com/therexone/linux-mon/blob/master/README.md#installation');
       },
     );
 
@@ -150,6 +157,7 @@ class _LinuxMonState extends State<LinuxMon> {
 
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },
@@ -179,8 +187,14 @@ class _LinuxMonState extends State<LinuxMon> {
                 child: Row(
                   children: [
                     connectionStatus == 'Disconnected'
-                        ? Image.asset('assets/disconnected-circle.png', height: 7,)
-                        : Image.asset('assets/connected-circle.png', height: 7),
+                        ? Image.asset(
+                            'assets/disconnected-circle.png',
+                            height: 7,
+                          )
+                        : connectionStatus == 'Connected'
+                            ? Image.asset('assets/connected-circle.png',
+                                height: 7)
+                            : Image.asset('assets/scanning.png', height: 7),
                     SizedBox(
                       width: 5.0,
                     ),

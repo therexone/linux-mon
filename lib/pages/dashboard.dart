@@ -6,9 +6,9 @@ import '../widgets/disconnected_column.dart';
 import '../widgets/dashboard_ram_card.dart';
 
 class DashboardPage extends StatefulWidget {
-  DashboardPage(this.stream);
+  DashboardPage(this.stream, this.ipAddr);
   final Stream stream;
-
+  String? ipAddr;
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
@@ -24,9 +24,9 @@ class _DashboardPageState extends State<DashboardPage>
     return StreamBuilder(
       stream: widget.stream,
       builder: (context, snapshot) {
-        DataParser data;
+        DataParser? data;
         if (snapshot.hasData) {
-          data = dataParserFromJson(snapshot.data);
+          data = dataParserFromJson(snapshot.data!.toString());
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -59,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage>
                               width: 10.0,
                             ),
                             Text(
-                              data.user,
+                              data!.user + " @ " + (widget.ipAddr ?? "") ,
                               style: kCardHeadingTextStyle,
                             )
                           ]),
@@ -95,8 +95,7 @@ class _DashboardPageState extends State<DashboardPage>
                           desc: 'BATTERY LEVEL',
                         ),
                         DashboardStats(
-                          data:
-                              data.sensorTemperatures.acpitz[0][1].toString(),
+                          data: data.sensorTemperatures.acpitz[0][1].toString(),
                           iconPath: 'assets/temperature.png',
                           unit: 'C',
                           desc: 'CORE TEMPERATURE',
@@ -129,4 +128,3 @@ class _DashboardPageState extends State<DashboardPage>
     );
   }
 }
-

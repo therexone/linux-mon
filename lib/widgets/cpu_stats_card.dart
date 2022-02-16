@@ -8,7 +8,11 @@ class StatsCard extends StatelessWidget {
   final String cardImgPath;
 
   const StatsCard(
-      {Key key, this.data, this.cardString, this.cardImgPath, this.dataUnit})
+      {Key? key,
+      required this.data,
+      required this.cardString,
+      required this.cardImgPath,
+      required this.dataUnit})
       : super(key: key);
 
   @override
@@ -23,7 +27,7 @@ class StatsCard extends StatelessWidget {
             width: 35.0,
           ),
           Text(
-            '${data.toStringAsFixed(0) ?? '--'} $dataUnit',
+            '${data.toStringAsFixed(0)} $dataUnit',
             style: kCardHeadingTextStyle,
           ),
           Text('$cardString', style: kCardSubHeadingTextStyle)

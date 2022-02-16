@@ -8,7 +8,7 @@
         <uses-permission android:name="android.permission.INTERNET"/>
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
-        android:name="io.flutter.app.FlutterApplication"
+      android:name="${applicationName}"
         android:label="linux_mon"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -31,10 +31,7 @@
                  screen fades out. A splash screen is useful to avoid any visual
                  gap between the end of Android's launch screen and the painting of
                  Flutter's first frame. -->
-            <meta-data
-              android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/launch_background"
-              />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

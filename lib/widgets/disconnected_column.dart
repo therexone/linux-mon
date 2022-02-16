@@ -3,9 +3,7 @@ import '../utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
 class DisconnectedColumn extends StatelessWidget {
-  const DisconnectedColumn({
-    Key key,
-  }) : super(key: key);
+  const DisconnectedColumn();
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +31,15 @@ class DisconnectedColumn extends StatelessWidget {
             '- Your phone and the linux device should be on the same network',
             style: kSubtitleTextStyle,
           ),
-          Image.asset('assets/error.png', height: 250,),
+          Image.asset(
+            'assets/error.png',
+            height: 250,
+          ),
           Expanded(
-                      child: InkWell(
+            child: InkWell(
               onTap: () async {
-                await url
-                    .launch('https://github.com/therexone/linux-mon/blob/master/README.md#installation');
+                await url.launch(
+                    'https://github.com/therexone/linux-mon/blob/master/README.md#installation');
               },
               child: Text(
                 '- More help - Github',
